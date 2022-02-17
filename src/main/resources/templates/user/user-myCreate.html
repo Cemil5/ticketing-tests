@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: header"></head>
+
+<body>
+
+<div class="dashboard-main-wrapper">
+
+    <div th:replace="/fragments/header :: header"></div>
+
+    <div th:replace="/fragments/left-sidebar :: left-sidebar"></div>
+
+    <div class="dashboard-wrapper">
+
+        <div class="dashboard-ecommerce">
+
+            <div class="container-fluid dashboard-content">
+
+                <div class="ecommerce-widget">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-12">
+
+                            <section class="panel panel-transparent">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">Project Create</h2>
+                                </header>
+
+                                <div class="panel-body">
+
+                                    <!-- ------------------------FORM START----------------------------- -->
+
+                                    <div class="card">
+                                        <h2 class="card-header p-3 bg-info text-white"> Welcome to User Creation Page </h2>
+                                        <div class="card-body">
+
+
+                                            <!--        <form th:action="@{/employee/list}" method="post" th:object="${employee}" class="needs-validation" novalidate>  -->
+                                            <form th:object="${userObject}" class="needs-validation" novalidate>
+                                                <div class="form-row">
+                                                    <div class="form-group col">
+                                                        <label for="inputFirstName4">First Name</label>
+                                                        <input type="text" class="form-control" id="inputFirstName4" th:field="*{firstName}" placeholder="First Name"
+                                                               required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter first name.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label for="inputLastName4">Last Name</label>
+                                                        <input type="text" class="form-control" id="inputLastName4" th:field="*{lastName}"placeholder="Last Name" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter last name.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">Email</label>
+                                                        <input type="email" class="form-control" id="inputEmail4" th:field="*{email}" placeholder="Email"
+                                                               pattern="^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@(?!-)[a-zA-Z0-9.-]+$" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter a valid email.
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPhone4">Phone</label>
+                                                        <input type="tel" class="form-control" id="inputPhone4"  th:field="*{phone}"placeholder="phone"required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter a phone number.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">Password</label>
+                                                        <input type="password" class="form-control" id="inputPassword4"
+                                                               th:field="*{password}" placeholder="Password"
+                                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                        <div class="invalid-feedback">
+                                                            Must contain at least one number and one uppercase and
+                                                            lowercase letter, and at least 8 or more characters
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword5">Password</label>
+                                                        <input type="password" class="form-control" id="inputPassword5"
+                                                               th:field="*{password}" placeholder="Password"
+                                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                        <div class="invalid-feedback">
+                                                            Must contain at least one number and one uppercase and
+                                                            lowercase letter, and at least 8 or more characters
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputCity">Gender</label>
+                                                        <input type="text" class="form-control" id="inputCity" th:field="*{gender}">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputState">Role</label>
+                                                        <select id="inputState" th:field="*{role}" class="form-control">
+                                                   <!--         <option th:each="theState : ${stateList}" th:text="${theState}" th:value="${theState}">Choose a state</option>
+                                                        -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="gridCheck" required>
+                                                        <div class="invalid-feedback">
+                                                            Please agree with the terms.
+                                                        </div>
+                                                        <label class="form-check-label" for="gridCheck">
+                                                            I agree terms
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-danger">Register</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- ------------------------FORM END----------------------------- -->
+
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ------------------------TABLE START----------------------------- -->
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">User List</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------TABLE END----------------------------- -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:replace="/fragments/footer :: footer"></div>
+
+</div>
+
+<div th:replace="/fragments/javascript :: js"></div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+</body>
+
+</html>
