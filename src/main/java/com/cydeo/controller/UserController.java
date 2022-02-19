@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -31,18 +29,6 @@ public class UserController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("users", userService.findAll());
 
-        for (UserDTO user : userService.findAll()){
-            System.out.println(user.getUserName());
-        }
-
-//        List<String> roleList = new ArrayList<>();
-//        for (RoleDTO role : roleService.findAll()){
-//            roleList.add(role.getDescription());
-//        }
-//        model.addAttribute("roleList", roleList);
-//        System.out.println(roleList);
-//        System.out.println(roleService.findByID(1L).getDescription());
-
         return "user/create";
     }
 
@@ -52,16 +38,13 @@ public class UserController {
 
         userService.save(user);
 
-        model.addAttribute("user", new UserDTO());
-        model.addAttribute("roles", roleService.findAll());
+//        model.addAttribute("user", new UserDTO());
+//        model.addAttribute("roles", roleService.findAll());
+//        model.addAttribute("users", userService.findAll());
+//        return "user/create";
 
-        model.addAttribute("users", userService.findAll());
-
-        for (UserDTO user1 : userService.findAll()){
-            System.out.println(user1.getUserName());
-        }
-
-        return "user/create";
+        // instead of writing codes above, we use redirect keyword.
+        return "redirect:/user/create";
     }
 
     @GetMapping("/update/{username}")
@@ -76,12 +59,18 @@ public class UserController {
     public String updateUser(@PathVariable String username, UserDTO user, Model model){
 
         userService.update(user);
+//        model.addAttribute("user", new UserDTO());
+//        model.addAttribute("roles", roleService.findAll());
+//        model.addAttribute("users", userService.findAll());
+//        return "user/create";
 
-        model.addAttribute("user", new UserDTO());
-        model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("users", userService.findAll());
-        return "user/create";
+        // instead of writing codes above, we use redirect keyword.
+        return "redirect:/user/create";
     }
 
-
+    @GetMapping("/delete/{username}")
+    public String prepToDeleteUser (@PathVariable String username){
+        userService.deleteByID(username);
+        return "redirect:/user/create";
+    }
 }
