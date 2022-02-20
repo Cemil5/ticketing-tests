@@ -5,7 +5,9 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends AbstractMapService<UserDTO, String> implements UserService {
@@ -37,5 +39,23 @@ public class UserServiceImpl extends AbstractMapService<UserDTO, String> impleme
     @Override
     public void delete(UserDTO object) {
         super.delete(object);
+    }
+
+    @Override
+    public List<UserDTO> findManagers() {
+        List<UserDTO> list = new ArrayList<>();
+        /*
+        for ( UserDTO user : super.findAll()){
+            if (user.getRole().getId() == 2L)
+                list.add(user);
+        }
+        return list;
+        */
+        return super.findAll().stream().filter(user -> user.getRole().getId() == 2).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDTO> findEmployees() {
+        return super.findAll().stream().filter(user -> user.getRole().getId() == 3).collect(Collectors.toList());
     }
 }

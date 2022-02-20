@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="/fragments/head :: header"><title>Project Create</title></head>
+<head th:replace="/fragments/head :: header"><title>Project Update</title></head>
 
 <body>
 
@@ -31,8 +31,9 @@
 
                                 <div class="panel-body">
 
-                                    <!-- ------------------------FORM START----------------------------- -->
-                                    <form th:action="@{/project/create}" method="post" th:object="${project}" class="needs-validation" novalidate>
+                                    <!-- ------------------------FORM START-----------------------------
+                                    th:action="@{/user/update/{id}(id=${user.userName})}" method="post" th:object="${user}" -->
+                                    <form th:action="@{/project/update/{id}(id=${project.projectCode})}" method="post" th:object="${project}" class="needs-validation" novalidate>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">

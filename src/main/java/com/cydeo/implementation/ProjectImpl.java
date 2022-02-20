@@ -2,9 +2,12 @@ package com.cydeo.implementation;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.service.ProjectService;
+import com.cydeo.utils.Status;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProjectImpl extends AbstractMapService<ProjectDTO,String > implements ProjectService {
 
     @Override
@@ -35,5 +38,11 @@ public class ProjectImpl extends AbstractMapService<ProjectDTO,String > implemen
     @Override
     public void delete(ProjectDTO object) {
         super.delete(object);
+    }
+
+    @Override
+    public void complete(ProjectDTO project) {
+        project.setProjectStatus(Status.COMPLETE);
+        save(project);
     }
 }
