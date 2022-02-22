@@ -3,7 +3,7 @@ package com.cydeo.utils;
 public enum Status {
 
     OPEN("Open"),
-    IN_PROGRES("In Progress"),
+    IN_PROGRESS("In Progress"),
     UAT_TEST("UAT Testing"),
     COMPLETE("Completed");
 

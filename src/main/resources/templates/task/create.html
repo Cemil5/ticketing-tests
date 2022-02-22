@@ -32,17 +32,19 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form class="needs-validation" novalidate>
+                                    <form th:object="${task}" th:action="@{/task/create}" method="post" class="needs-validation" novalidate >
 
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Project</label>
-                                                    <select class="custom-select" required="required">
-                                                        <option>Select</option>
-                                                        <option></option>
+                                                    <label>Project
+                                                    <select th:field = "*{project}" class="custom-select" required="required">
+                                                        <option th:text="Select" th:value="''"></option>
+                                                        <option th:each="pr : ${projects}" th:value="${pr.projectCode}"
+                                                                th:text="${pr.projectCode + ' ' +pr.projectName}"></option>
                                                     </select>
                                                     <div class="invalid-feedback">Please choose project</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,12 +52,14 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Assigned Employee</label>
-                                                    <select class="custom-select" required="required">
-                                                        <option>Select</option>
-                                                        <option></option>
+                                                    <label>Assigned Employee
+                                                    <select th:field = "*{assignedEmployee}" class="custom-select" required="required">
+                                                        <option th:text="Select" th:value="''"></option>
+                                                        <option th:each="emp : ${employees}" th:value="${emp.userName}"
+                                                                th:text="${emp.firstName + ' ' +emp.lastName}"></option>
                                                     </select>
                                                     <div class="invalid-feedback">Please choose employee</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -63,9 +67,10 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label class="col-form-label">Task Subject</label>
-                                                    <input id="projectname" type="text" placeholder="task subject" class="form-control" required>
+                                                    <label class="col-form-label">Task Subject
+                                                    <input th:field = "*{taskSubject}" type="text" placeholder="task subject" class="form-control" required>
                                                     <div class="invalid-feedback">Please enter task subject.</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,9 +78,10 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Task Detail</label>
-                                                    <textarea class="form-control" required></textarea>
+                                                    <label>Task Detail
+                                                    <textarea th:field = "*{taskDetail}" class="form-control" required></textarea>
                                                     <div class="invalid-feedback">Please enter task detail</div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,14 +124,25 @@
                                         <table class="table table-striped">
                                             <thead>
                                             <tr>
-                                                <th scope="col"></th>
+                                                <th scope="col">Project Name</th>
+                                                <th scope="col">Task Subject</th>
+                                                <th scope="col">Assigned Employee</th>
+                                                <th scope="col">Assigned Date</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:each="task : ${tasks}">
+                                                <td th:text="${task.project.projectCode +' '+task.project.projectName}"></td>
+                                                <td th:text="${task.taskSubject}"></td>
+                                                <td th:text="${task.assignedEmployee.firstName+' '+task.assignedEmployee.lastName}"></td>
+                                                <td th:text="${#temporals.format(task.assignedDate, 'MM/dd/yyyy')}"></td>
+                                                <td th:text="${task.taskStatus.value}"></td>
+                                                <td>
+                                                    <a th:href="@{/task/update/{id}(id=${task.taskId})}" class="btn btn-warning rounded-0">Update</a>
+                                                    <a th:href="@{/task/delete/{id}(id=${task.taskId})}" class="btn btn-danger rounded-0">Delete</a>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>

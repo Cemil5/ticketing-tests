@@ -33,7 +33,7 @@ public abstract class AbstractMapService<T, ID> {
     }
 
     void update(ID id, T object){
-        delete(object);
+       // delete(object);
         save(id, object);
     }
 

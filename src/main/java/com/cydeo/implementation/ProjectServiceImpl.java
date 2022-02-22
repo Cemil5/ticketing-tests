@@ -8,10 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProjectImpl extends AbstractMapService<ProjectDTO,String > implements ProjectService {
+public class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String > implements ProjectService {
 
     @Override
     public ProjectDTO save(ProjectDTO object) {
+        return super.save(object.getProjectCode(), object);
+    }
+
+    public ProjectDTO save(ProjectDTO object, Status status) {
         return super.save(object.getProjectCode(), object);
     }
 
@@ -32,6 +36,10 @@ public class ProjectImpl extends AbstractMapService<ProjectDTO,String > implemen
 
     @Override
     public void update(ProjectDTO object) {
+        if (object.getProjectStatus() == null) {
+            ProjectDTO temp = findByID(object.getProjectCode());
+            object.setProjectStatus(temp.getProjectStatus());
+        }
         super.update(object.getProjectCode(), object);
     }
 
@@ -45,4 +53,6 @@ public class ProjectImpl extends AbstractMapService<ProjectDTO,String > implemen
         project.setProjectStatus(Status.COMPLETE);
         save(project);
     }
+
+
 }

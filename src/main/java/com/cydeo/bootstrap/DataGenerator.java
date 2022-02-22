@@ -2,9 +2,11 @@ package com.cydeo.bootstrap;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.RoleDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import com.cydeo.utils.Gender;
 import com.cydeo.utils.Status;
@@ -19,12 +21,14 @@ public class DataGenerator implements CommandLineRunner {
     RoleService roleService;
     UserService userService;
     ProjectService projectService;
+    TaskService taskService;
 
     //@Autowired
-    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -42,17 +46,17 @@ public class DataGenerator implements CommandLineRunner {
         UserDTO user5 = new UserDTO("Mike", "Smith",
                 "mike@cybertek.com", "Abc2", true, "7459684532", adminRole, Gender.MALE);
         UserDTO user2 = new UserDTO("Delisa",
-                "Norre", "delisa@cybertek.com", "123", true, "8567412358", managerRole, Gender.FEMALE);
+                "Norrie", "delisa@cybertek.com", "123", true, "8567412358", managerRole, Gender.FEMALE);
         UserDTO user3 = new UserDTO("Craig", "Jark",
                 "craig@cybertek.com", "Abc3", true, "7777775566", employeeRole, Gender.MALE);
         UserDTO user4 = new UserDTO("Shaun",
-                "Hayns", "shaun@cybertek.com", "Abc4", true, "3256987412", managerRole, Gender.MALE);
-        UserDTO user6 = new UserDTO("Elizebeth",
+                "Hans", "shaun@cybertek.com", "Abc4", true, "3256987412", managerRole, Gender.MALE);
+        UserDTO user6 = new UserDTO("Elizabeth",
                 "Loren", "elizebeth@cybertek.com", "Abc4", true, "5306987412", employeeRole, Gender.FEMALE);
         UserDTO user7 = new UserDTO("Maria",
                 "Ada", "maria@cybertek.com", "Abc4", true, "9996987412", employeeRole, Gender.FEMALE);
         UserDTO user8 = new UserDTO("Bill",
-                "Matt", "maria@cybertek.com", "Abc4", true, "8881239846", employeeRole, Gender.MALE);
+                "Matt", "bill@cybertek.com", "Abc4", true, "8881239846", employeeRole, Gender.MALE);
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
@@ -64,12 +68,21 @@ public class DataGenerator implements CommandLineRunner {
 
 
         ProjectDTO project1 = new ProjectDTO("Spring MVC", "PR001", user1, LocalDate.now(), LocalDate.now().plusDays(25), "Creating Controllers", Status.OPEN);
-        ProjectDTO project2 = new ProjectDTO("Spring ORM", "PR002", user2, LocalDate.now(), LocalDate.now().plusDays(125), "Creating Database", Status.IN_PROGRES);
+        ProjectDTO project2 = new ProjectDTO("Spring ORM", "PR002", user2, LocalDate.now(), LocalDate.now().plusDays(125), "Creating Database", Status.IN_PROGRESS);
         ProjectDTO project3 = new ProjectDTO("Spring Container", "PR003", user1, LocalDate.now(), LocalDate.now().plusDays(52), "Creating Container", Status.UAT_TEST);
 
         projectService.save(project1);
         projectService.save(project2);
         projectService.save(project3);
+
+        TaskDTO task1 = new TaskDTO(project1,user8,"Controller","Request Mapping",Status.IN_PROGRESS,LocalDate.now().minusDays(4));
+        TaskDTO task2 = new TaskDTO(project3,user3,"Configuration","Database Connection",Status.COMPLETE,LocalDate.now().minusDays(12));
+        TaskDTO task3 = new TaskDTO(project3,user6,"Mapping","One-To-Many",Status.IN_PROGRESS,LocalDate.now().minusDays(8));
+        TaskDTO task4 = new TaskDTO(project2,user7,"Dependency Injection","Autowired",Status.UAT_TEST,LocalDate.now().minusDays(20));
+        taskService.save(task1);
+        taskService.save(task2);
+        taskService.save(task3);
+        taskService.save(task4);
 
     }
 
