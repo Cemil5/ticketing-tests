@@ -1,9 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.implementation.ProjectServiceImpl;
 import com.cydeo.manager.ProjectManager;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/project")
