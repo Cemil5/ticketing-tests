@@ -36,7 +36,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label class="col-form-label">Project Name
+                                                    <label for="projectname" class="col-form-label">Project Name
                                                     <input id="projectname" type="text" placeholder="project name" class="form-control"
                                                            th:field="*{projectName}" required>
                                                     <div class="invalid-feedback">Please enter project name.</div>
@@ -47,7 +47,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label class="col-form-label">Project Code
+                                                    <label for="projectcode" class="col-form-label">Project Code
                                                         <input id="projectcode" type="text" placeholder="project code" class="form-control"
                                                                th:field="*{projectCode}" required>
                                                     <div class="invalid-feedback">Please enter project code.</div>
@@ -71,16 +71,16 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Project Start Date
-                                                    <input type="date" class="form-control" th:field="*{startDate}" required>
+                                                    <label for="startdate">Project Start Date
+                                                    <input id="startdate" type="date" class="form-control" th:field="*{startDate}" required>
                                                         <div class="invalid-feedback">Please choose start date</div>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Project End Date
-                                                    <input type="date" class="form-control" th:field="*{endDate}" required>
+                                                    <label for="enddate">Project End Date
+                                                    <input id="enddate" type="date" class="form-control" th:field="*{endDate}" required>
                                                         <div class="invalid-feedback">Please choose end date</div>
                                                     </label>
                                                 </div>
@@ -89,8 +89,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Project Detail
-                                                        <textarea class="form-control" required th:field="*{projectDetail}" ></textarea>
+                                                    <label for="projectdetail" >Project Detail
+                                                        <textarea id="projectdetail" class="form-control" required th:field="*{projectDetail}" ></textarea>
                                                         <div class="invalid-feedback">Please write project details</div>
                                                     </label>
                                                 </div>

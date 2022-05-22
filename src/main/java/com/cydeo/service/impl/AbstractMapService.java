@@ -1,6 +1,4 @@
-package com.cydeo.implementation;
-
-import com.cydeo.service.CrudService;
+package com.cydeo.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +10,7 @@ public abstract class AbstractMapService<T, ID> {
     protected Map<ID, T> map = new HashMap<>();
 
     T save(ID id, T object){
-        map.put(id, object);
+        map.putIfAbsent(id, object);    // I changed it to "putIfAbsent" to avoid from saving if an Id already exists
         return object;
     }
 
@@ -33,8 +31,7 @@ public abstract class AbstractMapService<T, ID> {
     }
 
     void update(ID id, T object){
-       // delete(object);
-        save(id, object);
+        map.put(id, object);
     }
 
 }

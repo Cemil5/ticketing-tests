@@ -6,7 +6,8 @@ import com.cydeo.manager.ProjectManager;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import com.cydeo.utils.Status;
+import com.cydeo.enums.Status;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@AllArgsConstructor // autowires all beans.
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Autowired
     ProjectService projectService;
-
-    @Autowired
     UserService userService;
-
-    @Autowired
     TaskService taskService;
-
-    @Autowired
     ProjectManager projectManager;
 
     @GetMapping("/create")

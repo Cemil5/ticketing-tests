@@ -1,7 +1,6 @@
 package com.cydeo.dto;
 
-import com.cydeo.utils.Status;
-import lombok.AllArgsConstructor;
+import com.cydeo.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

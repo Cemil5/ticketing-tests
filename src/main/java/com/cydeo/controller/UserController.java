@@ -1,25 +1,19 @@
 package com.cydeo.controller;
 
-import com.cydeo.bootstrap.DataGenerator;
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.implementation.RoleServiceImpl;
-import com.cydeo.implementation.UserServiceImpl;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
+@AllArgsConstructor // autowires all beans
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     RoleService roleService;
-    @Autowired
     UserService userService;
 
     @GetMapping({"/create", "/add", "/initialize"})
@@ -55,8 +49,8 @@ public class UserController {
         return "user/update";
     }
 
-    @PostMapping("/update/{username}")
-    public String updateUser(@PathVariable String username, UserDTO user, Model model){
+    @PostMapping("/update")
+    public String updateUser(UserDTO user, Model model){
 
         userService.update(user);
 //        model.addAttribute("user", new UserDTO());
@@ -69,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{username}")
-    public String prepToDeleteUser (@PathVariable String username){
+    public String deleteUser(@PathVariable String username){
         userService.deleteByID(username);
         return "redirect:/user/create";
     }

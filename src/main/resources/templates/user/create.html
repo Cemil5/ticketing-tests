@@ -193,12 +193,12 @@
                                                     <td th:text="${u.phone}"></td>
                                                     <td th:text="${u.role.description}"></td>
                                                     <td class="actions">
-                                                        <a th:href="@{/user/update/{id}(id=${u.userName})}">
+                                                        <a th:href="@{ /user/update/{id} (id=${u.userName}) }">
                                                             <button type="button" class="btn btn-warning btn-sm">
                                                                 Update
                                                             </button>
                                                         </a>
-                                                        <a th:href="@{/user/delete/{id}(id=${u.userName})}" class="delete-row">
+                                                        <a th:href="@{ /user/delete/{id} (id=${u.userName}) }" class="delete-row">
                                                             <button type="button" class="btn btn-secondary btn-sm">
                                                                 Delete
                                                             </button>

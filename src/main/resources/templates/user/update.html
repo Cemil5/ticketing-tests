@@ -32,7 +32,7 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form class="needs-validation" novalidate th:action="@{/user/update/{id}(id=${user.userName})}" method="post"
+                                    <form class="needs-validation" novalidate th:action="@{ /user/update}" method="post"
                                           th:object="${user}">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">

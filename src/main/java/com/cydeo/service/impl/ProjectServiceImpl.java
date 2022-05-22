@@ -1,14 +1,14 @@
-package com.cydeo.implementation;
+package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.service.ProjectService;
-import com.cydeo.utils.Status;
+import com.cydeo.enums.Status;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String > implements ProjectService {
+public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> implements ProjectService {
 
     @Override
     public ProjectDTO save(ProjectDTO object) {

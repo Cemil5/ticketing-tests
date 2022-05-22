@@ -1,7 +1,7 @@
 package com.cydeo.service;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.utils.Status;
+import com.cydeo.enums.Status;
 
 public interface ProjectService extends CrudService<ProjectDTO, String> {
 

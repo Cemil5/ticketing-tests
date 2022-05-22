@@ -8,8 +8,8 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import com.cydeo.utils.Gender;
-import com.cydeo.utils.Status;
+import com.cydeo.enums.Gender;
+import com.cydeo.enums.Status;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 

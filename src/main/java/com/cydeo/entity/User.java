@@ -1,6 +1,6 @@
 package com.cydeo.entity;
 
-import com.cydeo.utils.Gender;
+import com.cydeo.enums.Gender;
 import lombok.*;
 
 import java.time.LocalDateTime;

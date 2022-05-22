@@ -4,7 +4,7 @@ import com.cydeo.dto.TaskDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import com.cydeo.utils.Status;
+import com.cydeo.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,6 @@
 package com.cydeo.dto;
 
-import com.cydeo.utils.Gender;
+import com.cydeo.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
