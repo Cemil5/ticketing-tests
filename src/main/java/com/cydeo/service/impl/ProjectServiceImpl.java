@@ -1,14 +1,22 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.TaskDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.enums.Status;
+import com.cydeo.service.TaskService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> implements ProjectService {
+
+    TaskService taskService;
 
     @Override
     public ProjectDTO save(ProjectDTO object) {
@@ -52,6 +60,22 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
     public void complete(ProjectDTO project) {
         project.setProjectStatus(Status.COMPLETE);
         save(project);
+    }
+
+    public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
+        return findAll()
+                .stream()
+                .filter(project -> project.getAssignedManager().equals(manager))
+                .peek(project -> {
+                    List<TaskDTO> taskList = taskService.findTaskByManager(manager);
+                    int completeCount = (int) taskList.stream().
+                            filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
+                    int inCompleteCount = (int) taskList.stream().
+                            filter(t->t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE).count();
+
+                    project.setCompleteTaskCounts(completeCount);
+                    project.setInCompleteTaskCounts(inCompleteCount);
+                }).collect(Collectors.toList());
     }
 
 
