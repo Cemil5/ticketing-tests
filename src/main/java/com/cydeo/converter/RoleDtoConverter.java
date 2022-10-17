@@ -17,6 +17,11 @@ public class RoleDtoConverter implements Converter<String, RoleDTO> {
 
     @Override
     public RoleDTO convert(String source) {
+
+        // for creating error if user selects "Select"
+        if (source == null || source.isBlank())
+            return null;
+
         Long id = Long.parseLong(source);
         return roleService.findByID(id);
     }

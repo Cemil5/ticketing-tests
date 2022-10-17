@@ -9,10 +9,10 @@ import com.cydeo.enums.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -33,9 +33,16 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public String insertProject(ProjectDTO projectDTO){
+    public String insertProject(@Valid @ModelAttribute ("project") ProjectDTO projectDTO, BindingResult bindingResult, Model model){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("managers", userService.findManagers());
+            model.addAttribute("projects", projectService.findAll());
+            return "/project/create";
+        }
+
        // projectDTO.setProjectStatus(Status.OPEN);
-        projectService.save(projectDTO, Status.OPEN);
+        projectService.save(projectDTO);
         return "redirect:/project/create";
     }
 
@@ -53,9 +60,14 @@ public class ProjectController {
         return "/project/update";
     }
 
-    @PostMapping("/update/{projectCode}")
-    public String updateProject(@PathVariable String projectCode, ProjectDTO projectDTO){
-        projectService.update(projectDTO);
+    @PostMapping("/update")
+    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("managers", userService.findManagers());
+            model.addAttribute("projects", projectService.findAll());
+            return "/project/update";
+        }
+        projectService.update(project);
         return "redirect:/project/create";
     }
 

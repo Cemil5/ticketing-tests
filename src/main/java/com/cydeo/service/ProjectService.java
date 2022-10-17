@@ -10,7 +10,5 @@ public interface ProjectService extends CrudService<ProjectDTO, String> {
 
     void complete(ProjectDTO project);
 
-    ProjectDTO save(ProjectDTO object, Status status);
-
     List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager);
 }

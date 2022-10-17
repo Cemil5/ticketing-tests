@@ -32,19 +32,25 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form th:object="${task}" th:action="@{/task/create}" method="post" class="needs-validation" novalidate >
+                                    <form th:object="${task}" th:action="@{/task/create}" method="post" >
 
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Project
-                                                    <select th:field = "*{project}" class="custom-select" required="required">
+                                                    <select th:field = "*{project}" class="custom-select" >
                                                         <option th:text="Select" th:value="''"></option>
                                                         <option th:each="pr : ${projects}" th:value="${pr.projectCode}"
                                                                 th:text="${pr.projectCode + ' ' +pr.projectName}"></option>
                                                     </select>
-                                                    <div class="invalid-feedback">Please choose project</div>
+<!--                                                    <div class="invalid-feedback">Please choose project</div>-->
                                                     </label>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('project')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('project')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -53,13 +59,19 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Assigned Employee
-                                                    <select th:field = "*{assignedEmployee}" class="custom-select" required="required">
+                                                    <select th:field = "*{assignedEmployee}" class="custom-select">
                                                         <option th:text="Select" th:value="''"></option>
                                                         <option th:each="emp : ${employees}" th:value="${emp.userName}"
                                                                 th:text="${emp.firstName + ' ' +emp.lastName}"></option>
                                                     </select>
-                                                    <div class="invalid-feedback">Please choose employee</div>
+<!--                                                    <div class="invalid-feedback">Please choose employee</div>-->
                                                     </label>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('assignedEmployee')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('assignedEmployee')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,9 +80,15 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class="col-form-label">Task Subject
-                                                    <input th:field = "*{taskSubject}" type="text" placeholder="task subject" class="form-control" required>
-                                                    <div class="invalid-feedback">Please enter task subject.</div>
+                                                    <input th:field = "*{taskSubject}" type="text" placeholder="task subject" class="form-control">
+<!--                                                    <div class="invalid-feedback">Please enter task subject.</div>-->
                                                     </label>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('taskSubject')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('taskSubject')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,9 +97,15 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Task Detail
-                                                    <textarea th:field = "*{taskDetail}" class="form-control" required></textarea>
-                                                    <div class="invalid-feedback">Please enter task detail</div>
+                                                    <textarea th:field = "*{taskDetail}" class="form-control"></textarea>
+<!--                                                    <div class="invalid-feedback">Please enter task detail</div>-->
                                                     </label>
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('taskDetail')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('taskDetail')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
