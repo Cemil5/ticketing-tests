@@ -5,6 +5,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import com.cydeo.enums.Status;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +18,11 @@ import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/task")
+@AllArgsConstructor
 public class TaskController {
 
-    @Autowired
     ProjectService projectService;
-    @Autowired
     UserService userService;
-    @Autowired
     TaskService taskService;
 
     @GetMapping("/create")
@@ -49,7 +48,7 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    @GetMapping("update/{id}")
+    @GetMapping("/update/{id}")
     public String editTask(@PathVariable Long id, Model model){
         model.addAttribute("task", taskService.findByID(id));
         model.addAttribute("projects", projectService.findAll());
@@ -60,18 +59,46 @@ public class TaskController {
 
 //    @PostMapping("update/{id}")
 //    public String updateTask(@PathVariable Long id, TaskDTO task){
-//        task.setTaskId(id);
+//        task.setId(id);
 //        taskService.update(task);
 //        return "redirect:/task/create";
 //    }
 
-    @PostMapping("update/{id}")
+    // Spring finds and match id implicitly if variable names equal and post mapping
+    @PostMapping("/update/{id}")
     public String updateTask(TaskDTO task){
 
         taskService.update(task);
         return "redirect:/task/create";
     }
 
+    @GetMapping("/employee/pending-tasks")
+    public String employeePendingTasks(Model model){
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+        return "/task/pending-tasks";
+    }
 
+    @GetMapping("/employee/archive")
+    public String employeeArchive(Model model){
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIs(Status.COMPLETE));
+        return "/task/archive";
+    }
+
+    @GetMapping("/employee/edit/{id}")
+    public String employeeEditTask(@PathVariable Long id, Model model){
+        model.addAttribute("task", taskService.findByID(id));
+        //we don't want employee to change project and employee part
+//        model.addAttribute("projects", projectService.findAll());
+//        model.addAttribute("employees", userService.findEmployees());
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+        return "/task/status-update";
+    }
+
+    @PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask(TaskDTO task){
+        taskService.updateStatus(task);
+        return "redirect:/task/employee/pending-tasks";
+    }
 
 }

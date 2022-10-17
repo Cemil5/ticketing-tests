@@ -1,17 +1,14 @@
 package com.cydeo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-
+//@Getter
+//@Setter
+@Data // z2h
 public class BaseEntity {
 
     private Long id;

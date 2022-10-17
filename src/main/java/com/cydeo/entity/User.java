@@ -6,8 +6,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Getter
-@Setter
+//@Getter
+//@Setter
+@Data   // z2h
 public class User extends BaseEntity {
 
     private String firstName;

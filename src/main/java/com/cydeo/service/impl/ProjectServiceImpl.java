@@ -62,19 +62,39 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
         save(project);
     }
 
+//    public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
+//        return findAll()
+//                .stream()
+//                .filter(project -> project.getAssignedManager().equals(manager))
+//                .map(project -> {
+//                    List<TaskDTO> taskList = taskService.findTaskByManager(manager);
+//                    int completeCount = (int) taskList.stream().
+//                            filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
+//                    int inCompleteCount = (int) taskList.stream().
+//                            filter(t->t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE).count();
+//
+//                    project.setCompleteTaskCounts(completeCount);
+//                    project.setInCompleteTaskCounts(inCompleteCount);
+//                    return project;
+//                }).collect(Collectors.toList());
+//    }
+
     public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
         return findAll()
                 .stream()
                 .filter(project -> project.getAssignedManager().equals(manager))
+                // I changed to peek from map with the recommendation of Intellij
                 .peek(project -> {
                     List<TaskDTO> taskList = taskService.findTaskByManager(manager);
-                    int completeCount = (int) taskList.stream().
-                            filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
-                    int inCompleteCount = (int) taskList.stream().
-                            filter(t->t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE).count();
+                    int completeTaskCount = (int) taskList.stream().
+                            filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE)
+                            .count();
+                    int inCompleteTaskCount = (int) taskList.stream().
+                            filter(t->t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE)
+                            .count();
 
-                    project.setCompleteTaskCounts(completeCount);
-                    project.setInCompleteTaskCounts(inCompleteCount);
+                    project.setCompleteTaskCounts(completeTaskCount);
+                    project.setInCompleteTaskCounts(inCompleteTaskCount);
                 }).collect(Collectors.toList());
     }
 

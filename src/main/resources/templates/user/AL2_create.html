@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/head :: head"></head>
+<head th:replace="/fragments/head :: header"></head>
 
 <body>
 
@@ -26,38 +26,36 @@
 
                             <section class="panel panel-transparent">
                                 <header class="panel-heading">
-                                    <h2 class="panel-title">User Update</h2>
+                                    <h2 class="panel-title">User Create</h2>
                                 </header>
 
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form th:action="@{/user/update}" method="post" th:object="${user}">
+                                    <form class="needs-validation" novalidate th:action="@{/user/create}" method="post"
+                                          th:object="${user}">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label for="firstname" class="col-form-label">First Name</label>
-                                                    <input id="firstname" type="text" placeholder="first name" th:field="*{firstName}" class="form-control">
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
-                                                        <ul>
-                                                            <li th:each="err : ${#fields.errors('firstName')}"
-                                                                th:text="${err}"></li>
-                                                        </ul>
+                                                    <input id="firstname" type="text" placeholder="first name"
+                                                           th:field="*{firstName}"
+                                                           class="form-control" required>
+                                                    <div class="invalid-feedback">
+                                                        Please enter first name.
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="lastname" class="col-form-label">Last Name
+                                                    <label for="lastname" class="col-form-label">Last Name</label>
                                                     <input id="lastname" type="text" placeholder="last name"
                                                            th:field="*{lastName}"
                                                            class="form-control" required>
                                                     <div class="invalid-feedback">
                                                         Please enter last name.
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,28 +64,26 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label for="emailaddress" class="col-form-label">Email
-                                                        Address
+                                                        Address</label>
                                                     <input id="emailaddress" type="text" placeholder="email address"
                                                            class="form-control" th:field="*{userName}"
                                                            pattern="^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@(?!-)[a-zA-Z0-9.-]+$"
-                                                           required readonly>
+                                                           required>
                                                     <div class="invalid-feedback">
                                                         Please enter email.
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="phonenumber" class="col-form-label">Phone Number
+                                                    <label for="phonenumber" class="col-form-label">Phone Number</label>
                                                     <input id="phonenumber" type="tel" placeholder="phone number"
                                                            class="form-control" th:field="*{phone}"
                                                            pattern="^\d{10}$" required>
                                                     <div class="invalid-feedback">
                                                         Please enter 10 digit mobile number.
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +91,7 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="password" class="col-form-label">Password
+                                                    <label for="password" class="col-form-label">Password</label>
                                                     <input id="password" type="password" placeholder="password"
                                                            class="form-control" th:field="*{passWord}"
                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
@@ -103,13 +99,12 @@
                                                         Must contain at least one number and one uppercase and lowercase
                                                         letter, and at least 8 or more characters
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="repassword" class="col-form-label">Password
+                                                    <label for="repassword" class="col-form-label">Password</label>
                                                     <input id="repassword" type="password" th:field="*{passWord}"
                                                            placeholder="confirm your password" class="form-control"
                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
@@ -117,7 +112,6 @@
                                                         Must contain at least one number and one uppercase and lowercase
                                                         letter, and at least 8 or more characters
                                                     </div>
-                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -145,34 +139,26 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Choose a Role
-                                                        <!--          <select class="custom-select" required="required"
-                                                                      th:with="role=*{role}" id="role" name="role">
-                                                                  <option th:value="''" th:text="Select"></option>
-                                                                  <option th:each="role : ${roles}" th:value="${role.id}"
-                                                                          th:text="${role.description}"
-                                                                          th:selected="${role.id} == ${user.role.id}"></option>
-                                                              </select>
-                                                                 -->
-                                                    <select class="custom-select" required="required"
-                                                            th:field="*{role}">
-                                                        <option th:each="role : ${roles}" th:value="${role.id}"
-                                                                th:text="${role.description}"></option>
-                                                    </select>
+                                                        <select class="custom-select" required="required" th:field="*{role}">
+                                                            <option th:value="''"th:text="Select"></option>
+                                                            <option th:each="role : ${roles}" th:value="${role.id}"
+                                                                    th:text="${role.description}"></option>
+                                                        </select>
                                                     </label>
                                                 </div>
-                                                  </div>
-                                              </div>
+                                            </div>
+                                        </div>
 
-                                              <div class="row">
-                                                  <div class="col-sm-6 col-md-6 col-lg-12">
-                                                      <div class="float-right">
-                                                          <button type="submit" class="btn btn-success">Save</button>
-                                                      </div>
-                                                  </div>
-                                              </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-12">
+                                                <div class="float-right">
+                                                    <button type="submit" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                          </form>
-                                          <!-- ------------------------FORM END----------------------------- -->
+                                    </form>
+                                    <!-- ------------------------FORM END----------------------------- -->
                                 </div>
                             </section>
                         </div>
@@ -207,12 +193,12 @@
                                                     <td th:text="${u.phone}"></td>
                                                     <td th:text="${u.role.description}"></td>
                                                     <td class="actions">
-                                                        <a th:href="@{/user/update/{id}(id=${u.userName})}">
+                                                        <a th:href="@{ /user/update/{id} (id=${u.userName}) }">
                                                             <button type="button" class="btn btn-warning btn-sm">
                                                                 Update
                                                             </button>
                                                         </a>
-                                                        <a th:href="@{/user/delete/{id}(id=${u.userName})}" class="delete-row">
+                                                        <a th:href="@{ /user/delete/{id} (id=${u.userName}) }" class="delete-row">
                                                             <button type="button" class="btn btn-secondary btn-sm">
                                                                 Delete
                                                             </button>

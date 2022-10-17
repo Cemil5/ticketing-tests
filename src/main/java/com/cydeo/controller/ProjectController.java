@@ -72,21 +72,4 @@ public class ProjectController {
         return "/manager/project-status";
     }
 
-/*  // I put this method to projectServiceImp
-    List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager){
-        return projectService.findAll()
-                .stream().filter(project -> project.getAssignedManager().equals(manager)).
-                map(project -> {
-                    List<TaskDTO> taskList = taskService.findTaskByManager(manager);
-                    int completeCount = (int) taskList.stream().
-                            filter(t->t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
-                    int inCompleteCount = (int) taskList.stream().
-                            filter(t->t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE).count();
-                    project.setCompleteTaskCounts(completeCount);
-                    project.setInCompleteTaskCounts(inCompleteCount);
-                    return project;
-                }).collect(Collectors.toList());
-    }
-*/
-
 }

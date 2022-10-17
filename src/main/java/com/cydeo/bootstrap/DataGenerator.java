@@ -11,11 +11,12 @@ import com.cydeo.service.UserService;
 import com.cydeo.enums.Gender;
 import com.cydeo.enums.Status;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 
-@Controller
+@Component
 public class DataGenerator implements CommandLineRunner {
 
     RoleService roleService;

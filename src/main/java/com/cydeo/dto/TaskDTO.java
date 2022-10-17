@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 public class TaskDTO {
 
-    private Long taskId;
+    private Long id;
     private ProjectDTO project;
     private UserDTO assignedEmployee;
     private String taskSubject;
@@ -28,6 +28,6 @@ public class TaskDTO {
         this.taskDetail = taskDetail;
         this.taskStatus = taskStatus;
         this.assignedDate = assignedDate;
-        this.taskId = UUID.randomUUID().getLeastSignificantBits();
+        this.id = UUID.randomUUID().getLeastSignificantBits();
     }
 }
