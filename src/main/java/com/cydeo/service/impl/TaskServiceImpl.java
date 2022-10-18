@@ -4,7 +4,6 @@ import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Status;
 import com.cydeo.service.TaskService;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,7 +29,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
     }
 
     @Override
-    public TaskDTO findByID(Long aLong) {
+    public TaskDTO findById(Long aLong) {
         return super.findById(aLong);
     }
 
@@ -51,7 +50,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
 
     @Override
     public void update(TaskDTO task) {
-        TaskDTO foundTask = findByID(task.getId());
+        TaskDTO foundTask = this.findById(task.getId());
         task.setTaskStatus(foundTask.getTaskStatus());
         task.setAssignedDate(foundTask.getAssignedDate());
         //   System.out.println("task Id" + task.getId());
@@ -79,7 +78,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO, Long> implement
 
     @Override
     public void updateStatus(TaskDTO task) {
-        TaskDTO founded = findByID(task.getId());
+        TaskDTO founded = this.findById(task.getId());
         founded.setTaskStatus(task.getTaskStatus());
         super.update(task.getId(), founded);
     }

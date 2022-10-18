@@ -5,7 +5,6 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import com.cydeo.enums.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +53,7 @@ public class ProjectController {
 
     @GetMapping("/update/{projectCode}")
     public String editProject(@PathVariable String projectCode, Model model){
-        model.addAttribute("project", projectService.findByID(projectCode));
+        model.addAttribute("project", projectService.findById(projectCode));
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("managers", userService.findManagers());
         return "/project/update";
@@ -73,13 +72,13 @@ public class ProjectController {
 
     @GetMapping("/complete/{projectCode}")
     public String completeProject(@PathVariable String projectCode){
-        projectService.complete(projectService.findByID(projectCode));
+        projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/create";
     }
 
     @GetMapping("/manager")
     public String getProjectByManager(Model model){
-        UserDTO manager = userService.findByID("john@cybertek.com");
+        UserDTO manager = userService.findById("john@cybertek.com");
         model.addAttribute("projects",  projectService.getCountedListOfProjectDTO(manager));
         return "/manager/project-status";
     }

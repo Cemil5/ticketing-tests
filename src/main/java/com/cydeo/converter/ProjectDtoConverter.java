@@ -3,7 +3,6 @@ package com.cydeo.converter;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.service.ProjectService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +15,12 @@ public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
 
     @Override
     public ProjectDTO convert(String source) {
-        return projectService.findByID(source);
+
+        if (source == null || source.equals("")) {
+            return null;
+        }
+
+        return projectService.findById(source);
+
     }
 }

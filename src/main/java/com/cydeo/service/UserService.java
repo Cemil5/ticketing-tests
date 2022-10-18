@@ -13,7 +13,7 @@ public interface UserService extends CrudService<UserDTO, String >{
 
     /*
     UserDTO save(UserDTO user);
-    UserDTO findByID(String username);
+    UserDTO findById(String username);
     List<UserDTO> findAll();
     void delete(UserDTO user);
     void deleteByID(String username);

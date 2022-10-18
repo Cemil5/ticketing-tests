@@ -32,7 +32,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
     }
 
     @Override
-    public ProjectDTO findByID(String s) {
+    public ProjectDTO findById(String s) {
         return super.findById(s);
     }
 
@@ -49,7 +49,7 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String> i
     @Override
     public void update(ProjectDTO project) {
         if (project.getProjectStatus() == null) {
-            ProjectDTO foundProject = findByID(project.getProjectCode());
+            ProjectDTO foundProject = this.findById(project.getProjectCode());
             project.setProjectStatus(foundProject.getProjectStatus());
         }
         super.update(project.getProjectCode(), project);

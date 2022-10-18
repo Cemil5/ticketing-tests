@@ -6,14 +6,12 @@ import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import com.cydeo.enums.Status;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/task")
@@ -54,7 +52,7 @@ public class TaskController {
 
     @GetMapping("/update/{id}")
     public String editTask(@PathVariable Long id, Model model){
-        model.addAttribute("task", taskService.findByID(id));
+        model.addAttribute("task", taskService.findById(id));
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("employees", userService.findEmployees());
         model.addAttribute("tasks", taskService.findAll());
@@ -97,7 +95,7 @@ public class TaskController {
 
     @GetMapping("/employee/edit/{id}")
     public String employeeEditTask(@PathVariable Long id, Model model){
-        model.addAttribute("task", taskService.findByID(id));
+        model.addAttribute("task", taskService.findById(id));
         //we don't want employee to change project and employee part
 //        model.addAttribute("projects", projectService.findAll());
 //        model.addAttribute("employees", userService.findEmployees());

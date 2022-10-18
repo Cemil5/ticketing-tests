@@ -13,7 +13,7 @@ public interface RoleService extends CrudService<RoleDTO, Long>{
     //delete
 /*
     RoleDTO save(RoleDTO user);
-    RoleDTO findByID(Long id);
+    RoleDTO findById(Long id);
     List<RoleDTO> findAll();
     void delete(RoleDTO role);
     void deleteByID(Long id);
