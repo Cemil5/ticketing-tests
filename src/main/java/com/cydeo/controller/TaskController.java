@@ -18,9 +18,9 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class TaskController {
 
-    ProjectService projectService;
-    UserService userService;
-    TaskService taskService;
+    private final ProjectService projectService;
+    private final UserService userService;
+    private final TaskService taskService;
 
     @GetMapping("/create")
     public String createTask(Model model){
