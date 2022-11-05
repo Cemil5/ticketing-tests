@@ -1,60 +1,60 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.UserDTO;
+import com.cydeo.entity.User;
+import com.cydeo.mapper.MapperUtil;
+import com.cydeo.mapper.UserMapper;
+import com.cydeo.repository.UserRepository;
 import com.cydeo.service.UserService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl extends AbstractMapService<UserDTO, String> implements UserService {
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private UserRepository userRepository;
+//    private UserMapper userMapper;
+    private MapperUtil mapperUtil;
+
     @Override
-    public UserDTO save(UserDTO object) {
-        return super.save(object.getUserName(), object);
+    public List<UserDTO> listAllUsers() {
+        List<User> userList = userRepository.findAll(Sort.by("firstName"));
+        return userList.stream()
+                .map(user -> mapperUtil.convert(user, new UserDTO()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public UserDTO findById(String s) {
-        return super.findById(s);
+    public UserDTO findByUserName(String username) {
+        return mapperUtil.convert(userRepository.findByUserName(username), new UserDTO());
     }
 
     @Override
-    public List<UserDTO> findAll() {
-        return super.findAll();
+    public void save(UserDTO user) {
+        userRepository.save(mapperUtil.convert(user, new User()));
     }
 
     @Override
-    public void deleteByID(String s) {
-        super.deleteById(s);
+    public UserDTO update(UserDTO user) {
+        User updatedUser = mapperUtil.convert(user, new User());
+        User savedUser = userRepository.findByUserName(user.getUserName());
+        updatedUser.setId(savedUser.getId());
+        updatedUser.setInsertDateTime(savedUser.getInsertDateTime());
+        userRepository.save(updatedUser);
+        return findByUserName(user.getUserName());
     }
 
+    // without @Transactional : No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call
     @Override
-    public void update(UserDTO object) {
-        super.update(object.getUserName(), object);
-    }
-
-    @Override
-    public void delete(UserDTO object) {
-        super.delete(object);
-    }
-
-    @Override
-    public List<UserDTO> findManagers() {
-        List<UserDTO> list = new ArrayList<>();
-        /*
-        for ( UserDTO user : super.findAll()){
-            if (user.getRole().getId() == 2L)
-                list.add(user);
-        }
-        return list;
-        */
-        return super.findAll().stream().filter(user -> user.getRole().getId() == 2).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<UserDTO> findEmployees() {
-        return super.findAll().stream().filter(user -> user.getRole().getId() == 3).collect(Collectors.toList());
+    //@Transactional : we put this annotation inside UserService
+    public void deleteByUserName(String username) {
+        userRepository.deleteByUserName(username);
     }
 }

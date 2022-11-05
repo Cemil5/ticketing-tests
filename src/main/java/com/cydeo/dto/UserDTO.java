@@ -10,6 +10,16 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class UserDTO {
 
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @NotBlank
     @Size(min = 2, max = 15)
     private String firstName;
@@ -26,7 +36,7 @@ public class UserDTO {
     @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,}")
     private String passWord;
 
-    @NotBlank
+    @NotNull
     private String confirmPassWord;
 
     private boolean enabled;

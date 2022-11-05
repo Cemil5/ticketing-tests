@@ -1,14 +1,10 @@
 package com.cydeo.service;
 
 import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.UserDTO;
-import com.cydeo.enums.Status;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 
-public interface ProjectService extends CrudService<ProjectDTO, String> {
+public interface ProjectService {
 
-    void complete(ProjectDTO project);
-
-    List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager);
+    ProjectDTO findById(String id);
 }
