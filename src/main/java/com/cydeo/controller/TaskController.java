@@ -22,9 +22,9 @@ public class TaskController {
 //    @GetMapping("/create")
 //    public String createTask(Model model){
 //        model.addAttribute("task", new TaskDTO());
-//        model.addAttribute("projects", projectService.findAll());
+//        model.addAttribute("projects", projectService.listAllProjects());
 //        model.addAttribute("employees", userService.findEmployees());
-//        model.addAttribute("tasks", taskService.findAll());
+//        model.addAttribute("tasks", taskService.listAllProjects());
 //        return "/task/create";
 //    }
 //
@@ -32,9 +32,9 @@ public class TaskController {
 //    public String insertTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model){
 //
 //        if (bindingResult.hasErrors()) {
-//            model.addAttribute("projects", projectService.findAll());
+//            model.addAttribute("projects", projectService.listAllProjects());
 //            model.addAttribute("employees", userService.findEmployees());
-//            model.addAttribute("tasks", taskService.findAll());
+//            model.addAttribute("tasks", taskService.listAllProjects());
 //            return "/task/create";
 //        }
 //        taskService.save(task);
@@ -49,10 +49,10 @@ public class TaskController {
 //
 //    @GetMapping("/update/{id}")
 //    public String editTask(@PathVariable Long id, Model model){
-//        model.addAttribute("task", taskService.findById(id));
-//        model.addAttribute("projects", projectService.findAll());
+//        model.addAttribute("task", taskService.getByProjectCode(id));
+//        model.addAttribute("projects", projectService.listAllProjects());
 //        model.addAttribute("employees", userService.findEmployees());
-//        model.addAttribute("tasks", taskService.findAll());
+//        model.addAttribute("tasks", taskService.listAllProjects());
 //        return "/task/update";
 //    }
 //
@@ -68,9 +68,9 @@ public class TaskController {
 //    public String updateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model){
 //
 //        if (bindingResult.hasErrors()) {
-//            model.addAttribute("projects", projectService.findAll());
+//            model.addAttribute("projects", projectService.listAllProjects());
 //            model.addAttribute("employees", userService.findEmployees());
-//            model.addAttribute("tasks", taskService.findAll());
+//            model.addAttribute("tasks", taskService.listAllProjects());
 //            return "/task/update";
 //        }
 //
@@ -92,9 +92,9 @@ public class TaskController {
 //
 //    @GetMapping("/employee/edit/{id}")
 //    public String employeeEditTask(@PathVariable Long id, Model model){
-//        model.addAttribute("task", taskService.findById(id));
+//        model.addAttribute("task", taskService.getByProjectCode(id));
 //        //we don't want employee to change project and employee part
-////        model.addAttribute("projects", projectService.findAll());
+////        model.addAttribute("projects", projectService.listAllProjects());
 ////        model.addAttribute("employees", userService.findEmployees());
 //        model.addAttribute("statuses", Status.values());
 //        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));

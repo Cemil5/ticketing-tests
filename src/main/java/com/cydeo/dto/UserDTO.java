@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class UserDTO {
 
+    // since we have related tables user and project, to be able to save project with manager id, we need this field.
     private Long id;
 
     public Long getId() {

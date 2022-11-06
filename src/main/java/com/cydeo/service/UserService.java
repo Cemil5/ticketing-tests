@@ -2,7 +2,6 @@ package com.cydeo.service;
 
 import com.cydeo.dto.UserDTO;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -16,6 +15,13 @@ public interface UserService {
 
     UserDTO update(UserDTO user);
 
-    @Transactional
+    // deletes from database
     void deleteByUserName(String username);
+
+    // makes boolean true, if deleted
+    void delete(String username);
+
+    List<UserDTO> listAllByRole(String description);
+
+
 }

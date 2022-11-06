@@ -31,14 +31,14 @@ public class UserController {
 
 
 //    @PostMapping("/create")
-//    public String insertUser(@Valid @ModelAttribute("user") UserDTO user, Model model){
+//    public String insertUser(UserDTO user, Model model){
 //    // public String insertUser(UserDTO user, Model model){
 //
 //        userService.save(user);
 //
 ////        model.addAttribute("user", new UserDTO());
-////        model.addAttribute("roles", roleService.findAll());
-////        model.addAttribute("users", userService.findAll());
+////        model.addAttribute("roles", roleService.listAllProjects());
+////        model.addAttribute("users", userService.listAllProjects());
 ////        return "user/create";
 //
 //        // instead of writing codes above, we use redirect keyword.
@@ -79,8 +79,8 @@ public class UserController {
 
         userService.update(user);
 //        model.addAttribute("user", new UserDTO());
-//        model.addAttribute("roles", roleService.findAll());
-//        model.addAttribute("users", userService.findAll());
+//        model.addAttribute("roles", roleService.listAllProjects());
+//        model.addAttribute("users", userService.listAllProjects());
 //        return "user/create";
 
         // instead of writing codes above, we use redirect keyword.
@@ -89,7 +89,10 @@ public class UserController {
 
     @GetMapping("/delete/{username}")
     public String deleteUser(@PathVariable String username){
-        userService.deleteByUserName(username);
+        // deletes from database :
+//        userService.deleteByUserName(username);
+        // makes boolean true, if deleted
+        userService.delete(username);
         return "redirect:/user/create";
     }
 }

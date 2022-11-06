@@ -2,6 +2,7 @@ package com.cydeo.entity;
 
 import com.cydeo.enums.Gender;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 //@Data // z2h since it creates problem, I commented out this and put getter / setter
 @Entity
 @Table(name = "users")
+@Where(clause = "is_deleted=false") // adds this clause to all queries
 public class User extends BaseEntity {
 
     private String firstName;

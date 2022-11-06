@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 //    RoleMapper roleMapper;
-    MapperUtil mapperUtil;
+    private final MapperUtil mapperUtil;
 
     @Override
     public List<RoleDTO> listAllRoles() {
