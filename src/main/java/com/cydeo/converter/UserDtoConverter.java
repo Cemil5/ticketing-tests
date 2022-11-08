@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 //@ConfigurationPropertiesBinding   OPTIONAL
 public class UserDtoConverter implements Converter<String, UserDTO> {
 
-    UserService userService;
+    private final UserService userService;
 
     @Override
     public UserDTO convert(String source) {

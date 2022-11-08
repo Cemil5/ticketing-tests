@@ -182,9 +182,9 @@
                                                 <td th:text="${pr.assignedManager.firstName +' '+pr.assignedManager.lastName}"></td>
                                                 <td th:text="${pr.projectStatus}"></td>
                                                 <td>
-                                                    <a th:href="@{/project/update/{id}(id=${pr.projectCode})}" class="btn btn-warning rounded-0">Update</a>
+                                                    <a th:if="${project.projectStatus.value!='Completed'}" th:href="@{/project/update/{id}(id=${pr.projectCode})}" class="btn btn-warning rounded-0">Update</a>
                                                     <a th:href="@{/project/delete/{id}(id=${pr.projectCode})}" class="btn btn-danger rounded-0">Delete</a>
-                                                    <a th:href="@{/project/complete/{id}(id=${pr.projectCode})}" class="btn btn-info rounded-0">Complete</a>
+                                                    <a th:if="${project.projectStatus.value!='Completed'}" th:href="@{/project/complete/{id}(id=${pr.projectCode})}" class="btn btn-info rounded-0">Complete</a>
                                                 </td>
                                             </tr>
                                             </tbody>

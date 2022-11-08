@@ -21,6 +21,9 @@ import java.time.LocalDate;
 @Where(clause = "is_deleted = false")
 public class Project extends BaseEntity{
 
+    // Whenever the unique constraint is based only on one field, we can use @Column(unique=true) on that column.
+    // if this field is not unique, it will throw error that should be handled.
+    @Column(unique = true)
     private String projectName;
 
     private String projectCode;

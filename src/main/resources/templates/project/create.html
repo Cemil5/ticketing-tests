@@ -178,18 +178,21 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="pr : ${projects}">
-                                                <td th:text="${pr.projectCode}"></td>
-                                                <td th:text="${pr.projectName}"></td>
-                                                <td th:text="${#temporals.format(pr.startDate, 'MM.dd.yyy' ) + ' - '+ #temporals.format(pr.endDate, 'MM.dd.yyy' )}"></td>
-                                                <td th:text="${pr.assignedManager.firstName +' '+pr.assignedManager.lastName}"></td>
-                                                <td th:text="${pr.projectStatus.value}"></td>
-                                                <td>
-                                                    <a th:href="@{/project/update/{id}(id=${pr.projectCode})}" class="btn btn-warning rounded-0">Update</a>
-                                                    <a th:href="@{/project/delete/{id}(id=${pr.projectCode})}" class="btn btn-danger rounded-0">Delete</a>
-                                                    <a th:href="@{/project/complete/{id}(id=${pr.projectCode})}" class="btn btn-info rounded-0">Complete</a>
-                                                </td>
-                                            </tr>
+                                                <tr th:each="pr : ${projects}">
+                                                    <td th:text="${pr.projectCode}"></td>
+                                                    <td th:text="${pr.projectName}"></td>
+                                                    <td th:text="${#temporals.format(pr.startDate, 'MM.dd.yyyy' ) + ' - '+ #temporals.format(pr.endDate, 'MM.dd.yyyy' )}"></td>
+                                                    <td th:text="${pr.assignedManager.firstName +' '+pr.assignedManager.lastName}"></td>
+                                                    <td th:text="${pr.projectStatus.value}"></td>
+                                                    <td>
+    <!--                                                    <a th:href="@{/project/update/{id}(id=${pr.projectCode})}" class="btn btn-warning rounded-0">Update</a>-->
+    <!--                                                    <a th:href="@{/project/delete/{id}(id=${pr.projectCode})}" class="btn btn-danger rounded-0">Delete</a>-->
+    <!--                                                    <a th:href="@{/project/complete/{id}(id=${pr.projectCode})}" class="btn btn-info rounded-0">Complete</a>-->
+                                                        <a th:if="${pr.projectStatus.value != 'Completed'}" th:href="@{/project/update/{id}(id=${pr.projectCode})}" class="btn btn-warning rounded-0">Update</a>
+                                                        <a th:href="@{/project/delete/{id}(id=${pr.projectCode})}" class="btn btn-danger rounded-0">Delete</a>
+                                                        <a th:if="${pr.projectStatus.value != 'Completed'}" th:href="@{/project/complete/{id}(id=${pr.projectCode})}" class="btn btn-info rounded-0">Complete</a>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

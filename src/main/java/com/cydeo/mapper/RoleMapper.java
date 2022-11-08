@@ -5,6 +5,7 @@ import com.cydeo.entity.Role;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+// we use mapperUtil instead of this mapper
 @Component
 public class RoleMapper {
 

@@ -1,5 +1,6 @@
 package com.cydeo.repository;
 
+import com.cydeo.entity.BaseEntity;
 import com.cydeo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,11 +9,16 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUserName(String username);
+    // since we commented @where deleted is false condition from user entity :
+    List<User> findAllByIsDeletedOrderByFirstNameDesc(Boolean isDeleted);
 
-    @Transactional  // we can also put it inside service
-    void deleteByUserName(String username);
+    User findByUserNameAndIsDeleted(String username, Boolean isDeleted);
 
-    List<User> findByRole_DescriptionIgnoreCase(String roleDescription);
+//    @Transactional  // we can also put it inside service
+//    void deleteByUserName(String username);
+
+    List<User> findByRole_DescriptionIgnoreCaseAndIsDeleted(String roleDescription, Boolean isDeleted);
+
+
 
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 //@ConfigurationPropertiesBinding   OPTIONAL
 public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
 
-    ProjectService projectService;
+    private final ProjectService projectService;
 
     @Override
     public ProjectDTO convert(String source) {
@@ -21,6 +21,5 @@ public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
         }
 
         return projectService.getByProjectCode(source);
-
     }
 }
