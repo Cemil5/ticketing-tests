@@ -1,7 +1,10 @@
 package com.cydeo.dto;
 
 import com.cydeo.enums.Gender;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 
 import javax.validation.constraints.*;
 
@@ -43,7 +46,10 @@ public class UserDTO {
     private boolean enabled;
 
     @NotBlank
-    @Pattern(regexp = "^\\d{10}$")  // 10-digit number
+//    @Pattern(regexp = "^\\d{10}$")  // 10-digit number
+    @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$")
     private String phone;
 
     @NotNull
