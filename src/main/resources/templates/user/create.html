@@ -152,6 +152,22 @@
                                                 </div>
                                             </div>
                                         </div>
+<!--                                        Accounting hata alınca aynı rolü seçebilmek için kullanılabilir  ama benzerini company için de yapmak gerekiyor-->
+<!--                                        <label>Role</label>-->
+<!--                                        <select id="role" name="role" class="custom-select"-->
+<!--                                                th:with="role=*{role}">-->
+<!--                                            <option th:unless="${#fields.hasAnyErrors()}"-->
+<!--                                                    th:value="''"-->
+<!--                                                    th:text="'Select'"></option>-->
+<!--                                            <option th:each="role:${userRoles}"-->
+<!--                                                    th:value="${role.id}"-->
+<!--                                                    th:text="${role.description}"-->
+<!--                                                    th:if="'null' != ${newUser}"-->
+<!--                                                    th:selected="${role.id} == ${newUserRole}"></option>-->
+<!--                                        </select>-->
+<!--                                        <p th:if="${#fields.hasErrors('role')}"-->
+<!--                                           th:style="${'color: red;'}"-->
+<!--                                           th:errors="*{role}"></p>-->
 
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-12">
@@ -209,7 +225,8 @@
                                                 <td th:text="${user.role.description}"></td>
                                                 <td class="actions">
                                                     <a th:href="@{/user/update/{id}(id=${user.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
-                                                    <a th:href="@{/user/delete/{id}(id=${user.userName})}" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
+                                                    <a th:href="@{/user/delete/{id}(id=${user.userName})}" class="delete-row">
+                                                        <button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
                                                 </td>
                                             </tr>
 
