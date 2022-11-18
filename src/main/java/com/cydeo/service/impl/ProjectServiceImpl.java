@@ -9,6 +9,7 @@ import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.ProjectRepository;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.SecurityService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final UserService userService;
 //    private final TaskRepository taskRepository;    // not a good practice, we need to call task service
     private final TaskService taskService;
+    private final SecurityService securityService;
 
     // we don't use this, because each manager should see only his/her project list
 //    @Override
@@ -77,7 +79,8 @@ public class ProjectServiceImpl implements ProjectService {
     // to list all projects belongs to logged in manager
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
-        UserDTO currentUserDto = userService.findByUserName("harold@manager.com");
+//        UserDTO currentUserDto = userService.findByUserName("harold@manager.com");
+        UserDTO currentUserDto = userService.findByUserName(securityService.getLoggedInUsername());
       //  User user = mapperUtil.convert(currentUserDto, new User());
       //  final List<Project> projectList = projectRepository.findByAssignedManager(user);
         final List<Project> projectList = projectRepository.findByAssignedManager_UserName(currentUserDto.getUserName());

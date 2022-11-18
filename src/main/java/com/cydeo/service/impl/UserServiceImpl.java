@@ -5,18 +5,15 @@ import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.MapperUtil;
-import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.SecurityService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
-import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +25,20 @@ public class UserServiceImpl implements UserService {
     private final MapperUtil mapperUtil;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final PasswordEncoder passwordEncoder;
+    private final SecurityService securityService;
 
-    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil, @Lazy ProjectService projectService, @Lazy TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           MapperUtil mapperUtil,
+                           @Lazy ProjectService projectService,
+                           @Lazy TaskService taskService,
+                           PasswordEncoder passwordEncoder, SecurityService securityService) {
         this.userRepository = userRepository;
         this.mapperUtil = mapperUtil;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.passwordEncoder = passwordEncoder;
+        this.securityService = securityService;
     }
 
     @Override
@@ -52,8 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(UserDTO user) {
-        userRepository.save(mapperUtil.convert(user, new User()));
+    public void save(UserDTO dto) {
+        User user = mapperUtil.convert(dto, new User());
+        user.setPassWord(passwordEncoder.encode(user.getPassWord()));
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 
     @Override
@@ -92,6 +100,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false).stream()
                 .map(user -> mapperUtil.convert(user, new UserDTO()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getLoggedInUsername() {
+        return securityService.getLoggedInUsername();
     }
 
     private boolean checkIfUserCanBeDeleted(User user) {

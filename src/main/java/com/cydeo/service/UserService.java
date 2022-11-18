@@ -23,5 +23,6 @@ public interface UserService {
 
     List<UserDTO> listAllByRole(String description);
 
+    String getLoggedInUsername();
 
 }
