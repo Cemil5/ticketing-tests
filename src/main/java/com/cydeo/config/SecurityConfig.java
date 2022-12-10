@@ -24,7 +24,7 @@ public class SecurityConfig {
     private final AuthSuccessHandler authSuccessHandler;
 
 
-    // this hard coded users may be used for testing purposes.
+    // this is fo hard coded users may be used for testing purposes.
     // overrides Spring User object :
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
@@ -51,16 +51,16 @@ public class SecurityConfig {
 //                .antMatchers("/task/**").hasRole("MANAGER")
 //                .antMatchers("/task/**").hasAnyRole("EMPLOYEE", "ADMIN")          // ROLE_ since it concatenates it later
 //                .antMatchers("/task/**").hasAuthority("ROLE_EMPLOYEE")  // needs ROLE_ to use spring default settings
-                .antMatchers("/user/**").hasAuthority("Admin")   // everything under user controller should be accessible by "Admin" role.
-                .antMatchers("/project/**").hasAuthority("Manager") // if we don't restrict any page & directory, it can be reached by any logged-in user
-                .antMatchers("/task/employee/**").hasAuthority("Employee")
-                .antMatchers(               // everybody should see these :
+                    .antMatchers("/user/**").hasAuthority("Admin")   // everything under user controller should be accessible by "Admin" role.
+                    .antMatchers("/project/**").hasAuthority("Manager") // if we don't restrict any page & directory, it can be reached by any logged-in user
+                    .antMatchers("/task/employee/**").hasAuthority("Employee")
+                    .antMatchers(               // everybody without log in should see these :
                         "/",
                         "/login",
                         "/fragments/**",    // everything inside fragments directory
                         "/assets/**",
                         "/images/**"
-                    ).permitAll()   // anybody should access these pages, directories
+                        ).permitAll()   // anybody should access these pages, directories
                     .anyRequest().authenticated()
                 .and()
 //                .httpBasic()      // we want to use spring pop-up form which comes after our login form

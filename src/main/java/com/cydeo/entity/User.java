@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 //@Data // z2h since it creates problem, I commented out this and put getter / setter
-@Entity
+
 @Table(name = "users")
 // if we delete an employee which has completed tasks, then try to list a project which has this employee task,
 // spring can not find this employee since we deleted and
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 
 // @Where(clause = "is_deleted=false") // adds this clause to all queries related to user entity
         // SELECT * FROM users WHERE id = 4 AND is_deleted = false;
-
+@Entity
 public class User extends BaseEntity {
 
     private String firstName;
@@ -30,6 +30,7 @@ public class User extends BaseEntity {
     private String userName;
 
     private String passWord;
+
     private boolean enabled;
     private String phone;
 

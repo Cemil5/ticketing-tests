@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 //@Data // z2h since it creates problem, I commented out this and put getter / setter
 @MappedSuperclass
+@EntityListeners(BaseEntityListener.class)
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +33,18 @@ public class BaseEntity {
     @Column(nullable = false)
     private Long lastUpdateUserId;
 
-    @PrePersist
-    private void onPrePersist() {
-        this.insertDateTime = LocalDateTime.now();
-        this.lastUpdateDateTime = LocalDateTime.now();
-        this.insertUserId = 1L;
-        this.lastUpdateUserId = 1L;
-    }
-
-    @PreUpdate
-    private void onPreUpdate() {
-        this.lastUpdateDateTime = LocalDateTime.now();
-        this.lastUpdateUserId = 1L;
-    }
+//    @PrePersist
+//    private void onPrePersist() {
+//        this.insertDateTime = LocalDateTime.now();
+//        this.lastUpdateDateTime = LocalDateTime.now();
+//        this.insertUserId = 1L;
+//        this.lastUpdateUserId = 1L;
+//    }
+//
+//    @PreUpdate
+//    private void onPreUpdate() {
+//        this.lastUpdateDateTime = LocalDateTime.now();
+//        this.lastUpdateUserId = 1L;
+//    }
 
 }
