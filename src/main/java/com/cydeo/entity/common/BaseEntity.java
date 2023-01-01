@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-//@Data // z2h since it creates problem, I commented out this and put getter / setter
 @MappedSuperclass
 @EntityListeners(BaseEntityListener.class)
 public class BaseEntity {

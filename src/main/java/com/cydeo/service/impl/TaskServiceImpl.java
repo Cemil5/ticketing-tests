@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,24 +44,25 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
 
-    //@Transactional
     @Override
-    public void save(TaskDTO dto) {
+    public TaskDTO save(TaskDTO dto) {
         dto.setTaskStatus(Status.OPEN);
         dto.setAssignedDate(LocalDate.now());
         final Task task = mapperUtil.convert(dto, new Task());
-        taskRepository.save(task);
+        return mapperUtil.convert(taskRepository.save(task), new TaskDTO());
     }
 
     @Override
-    public void update(TaskDTO dto) {
+    public TaskDTO update(TaskDTO dto) {
         Optional<Task> task = taskRepository.findById(dto.getId());
         Task convertedTask = mapperUtil.convert(dto, new Task());
 
         if (task.isPresent()) {
             convertedTask.setTaskStatus(dto.getTaskStatus() == null ? task.get().getTaskStatus() : dto.getTaskStatus());
             convertedTask.setAssignedDate(task.get().getAssignedDate());
-            taskRepository.save(convertedTask);
+            return mapperUtil.convert(taskRepository.save(convertedTask), new TaskDTO());
+        } else {
+            throw new NoSuchElementException("task not found");
         }
     }
 
@@ -115,5 +117,12 @@ public class TaskServiceImpl implements TaskService {
                     taskDTO.setTaskStatus(Status.COMPLETE);
                     update(taskDTO);
                 });
+    }
+
+    @Override
+    public List<TaskDTO> getTasksByProjectCode(String projectCode) {
+        return taskRepository.findByProject_ProjectCode(projectCode).stream()
+                .map(task -> mapperUtil.convert(task, new TaskDTO()))
+                .collect(Collectors.toList());
     }
 }

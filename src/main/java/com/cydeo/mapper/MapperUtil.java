@@ -16,6 +16,7 @@ public class MapperUtil {
 
     // option 1
     public <T>  T convert(Object objectToConverted, T convertedObject) {
+        modelMapper.getConfiguration().setAmbiguityIgnored(true);
         return modelMapper.map(objectToConverted, (Type) convertedObject.getClass());
     }
 // we can use the method above like this :
