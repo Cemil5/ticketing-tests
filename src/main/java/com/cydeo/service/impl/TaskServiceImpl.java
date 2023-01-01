@@ -38,10 +38,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO findById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()) {
-            return mapperUtil.convert(task, new TaskDTO());
-        }
-        return null;
+        return task.map(task1 -> mapperUtil.convert(task1, new TaskDTO()))
+                .orElse(null);
     }
 
     @Override

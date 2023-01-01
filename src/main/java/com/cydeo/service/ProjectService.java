@@ -10,8 +10,8 @@ public interface ProjectService {
 
 //    List<ProjectDTO> listAllProjects();   // each manager should see only his/her project
     ProjectDTO getByProjectCode(String code);
-    void save(ProjectDTO dto);
-    void update(ProjectDTO dto);
+    ProjectDTO save(ProjectDTO dto);
+    ProjectDTO update(ProjectDTO dto);
     void delete(String code);
 
     void complete(String code);

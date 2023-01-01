@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,42 +26,37 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final MapperUtil mapperUtil;
     private final UserService userService;
-//    private final TaskRepository taskRepository;    // not a good practice, we need to call task service
     private final TaskService taskService;
     private final SecurityService securityService;
 
-    // we don't use this, because each manager should see only his/her project list
-//    @Override
-//    public List<ProjectDTO> listAllProjects() {
-//        return projectRepository.findAll().stream()
-//                .map(project -> mapperUtil.convert(project, new ProjectDTO()))
-//                .collect(Collectors.toList());
-//    }
-
     @Override
     public ProjectDTO getByProjectCode(String code) {
-        return mapperUtil.convert(projectRepository.findByProjectCode(code), new ProjectDTO());
+        Project project = projectRepository.findByProjectCode(code)
+                .orElseThrow(()-> new NoSuchElementException("project not found"));
+        return mapperUtil.convert(project, new ProjectDTO());
     }
 
     @Override
-    public void save(ProjectDTO dto) {
+    public ProjectDTO save(ProjectDTO dto) {
         dto.setProjectStatus(Status.OPEN);
-        projectRepository.save(mapperUtil.convert(dto, new Project()));
+        Project saved = projectRepository.save(mapperUtil.convert(dto, new Project()));
+        return mapperUtil.convert(saved, new ProjectDTO());
     }
 
     @Override
-    public void update(ProjectDTO dto) {
-        Project savedProject = projectRepository.findByProjectCode(dto.getProjectCode());
+    public ProjectDTO update(ProjectDTO dto) {
+        Project savedProject = projectRepository.findByProjectCode(dto.getProjectCode()).orElseThrow();
         Project updatedProject = mapperUtil.convert(dto, new Project());
         updatedProject.setId(savedProject.getId());
         updatedProject.setProjectStatus(savedProject.getProjectStatus());
-        projectRepository.save(updatedProject);
+        Project saved = projectRepository.save(updatedProject);
+        return mapperUtil.convert(saved, new ProjectDTO());
     }
 
     @Override
     @Transactional
     public void delete(String code) {
-        Project project = projectRepository.findByProjectCode(code);
+        Project project = projectRepository.findByProjectCode(code).orElseThrow();
         project.setIsDeleted(true);
         project.setProjectCode(project.getProjectCode() + "-" + project.getId()); // SP03-4
         projectRepository.save(project);
@@ -70,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void complete(String  code) {
-        Project project = projectRepository.findByProjectCode(code);
+        Project project = projectRepository.findByProjectCode(code).orElseThrow();
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
 

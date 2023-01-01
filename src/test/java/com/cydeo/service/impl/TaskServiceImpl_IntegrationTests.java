@@ -8,6 +8,9 @@ import com.cydeo.enums.Status;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -35,9 +38,10 @@ class TaskServiceImpl_IntegrationTests {
     @Test
     @Transactional
     void listAllTasks() {
+        //when
         List<TaskDTO> taskDTOS = taskService.listAllTasks();
-
-        assertTrue(taskDTOS.size()>5);
+        //then
+        assertTrue(taskDTOS.size()>15);
     }
 
     @Test
@@ -45,12 +49,12 @@ class TaskServiceImpl_IntegrationTests {
     void findById() {
         //when
         TaskDTO taskDTO = taskService.findById(1L);
-
         //then
         assertEquals("Injecting dependencies", taskDTO.getTaskDetail());
     }
 
     @Test
+    @Transactional
     @WithMockUser(username = "samantha@manager.com", password = "Abc1", roles = "MANAGER")
     void save() {
         //given
@@ -64,9 +68,10 @@ class TaskServiceImpl_IntegrationTests {
         taskDTO.setAssignedEmployee(userDTO);
 
         //when
-        TaskDTO actualDto = taskService.save(taskDTO);
+        TaskDTO savedDto = taskService.save(taskDTO);
 
         //then
+        TaskDTO actualDto = taskService.findById(savedDto.getId());
         assertThat(actualDto).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(taskDTO);
@@ -164,12 +169,17 @@ class TaskServiceImpl_IntegrationTests {
         taskDTOS.forEach(taskDTO -> assertEquals(Status.COMPLETE, taskDTO.getTaskStatus()));
     }
 
-    @Test
+    @ParameterizedTest
     @Transactional
-    void getTasksByProjectCode() {
+    @CsvSource({
+            "'SP00', 4",
+            "'SP20', 0"
+    })
+    void getTasksByProjectCode(String projectCode, int expected) {
         //when
-        List<TaskDTO> tasks = taskService.getTasksByProjectCode("SP00");
+        List<TaskDTO> tasks = taskService.getTasksByProjectCode(projectCode);
         //then
-        assertEquals(4, tasks.size());
+        assertEquals(expected, tasks.size());
     }
+
 }
