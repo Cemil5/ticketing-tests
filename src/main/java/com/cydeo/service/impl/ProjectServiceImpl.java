@@ -79,10 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
     // to list all projects belongs to logged in manager
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
-//        UserDTO currentUserDto = userService.findByUserName("harold@manager.com");
         UserDTO currentUserDto = userService.findByUserName(securityService.getLoggedInUsername());
-      //  User user = mapperUtil.convert(currentUserDto, new User());
-      //  final List<Project> projectList = projectRepository.findByAssignedManager(user);
         final List<Project> projectList = projectRepository.findByAssignedManager_UserName(currentUserDto.getUserName());
 
         return projectList.stream()
@@ -95,20 +92,6 @@ public class ProjectServiceImpl implements ProjectService {
                     return dto;
                 })
                 .collect(Collectors.toList());
-
-        // this is my solution but not a good practice, we shouldn't use taskRepository but taskService
-//        return projectList.stream()
-//                .map(project -> {
-//                    ProjectDTO dto = mapperUtil.convert(project, new ProjectDTO());
-//                    int completeTasks = (int) taskRepository.findByProject_ProjectCode(project.getProjectCode()).stream()
-//                            .filter(task -> task.getTaskStatus().equals(Status.COMPLETE)).count();
-//                    int inCompleteTasks = (int) taskRepository.findByProject_ProjectCode(project.getProjectCode()).stream()
-//                            .filter(task -> !task.getTaskStatus().equals(Status.COMPLETE)).count();
-//                    dto.setCompleteTaskCounts(completeTasks);
-//                    dto.setInCompleteTaskCounts(inCompleteTasks);
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
     }
 
     @Override

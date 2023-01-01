@@ -15,13 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-//    private UserMapper userMapper;
     private final MapperUtil mapperUtil;
     private final ProjectService projectService;
     private final TaskService taskService;
@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-//        List<User> userList = userRepository.findAll(Sort.by("firstName"));
         List<User> userList = userRepository.findAllByIsDeletedOrderByFirstNameDesc(false);
         return userList.stream()
                 .map(user -> mapperUtil.convert(user, new UserDTO()))
@@ -52,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findByUserName(String username) {
-//        return mapperUtil.convert(userRepository.findByUserName(username), new UserDTO());
         return mapperUtil.convert(userRepository.findByUserNameAndIsDeleted(username, false), new UserDTO());
     }
 
@@ -67,7 +65,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO update(UserDTO user) {
         User updatedUser = mapperUtil.convert(user, new User());
-//        User savedUser = userRepository.findByUserName(user.getUserName());
         User savedUser = userRepository.findByUserNameAndIsDeleted(user.getUserName(), false);
         updatedUser.setId(savedUser.getId());
         updatedUser.setInsertDateTime(savedUser.getInsertDateTime());
@@ -75,28 +72,20 @@ public class UserServiceImpl implements UserService {
         return findByUserName(user.getUserName());
     }
 
-//    // without @Transactional : No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call
-//    @Override
-//    //@Transactional : we put this annotation inside UserService
-//    public void deleteByUserName(String username) {
-//        userRepository.deleteByUserName(username);
-//    }
-
     @Override
     public void delete(String username) {
-//       User user = userRepository.findByUserName(username);
        User user = userRepository.findByUserNameAndIsDeleted(username, false);
        if (checkIfUserCanBeDeleted(user)) {
            user.setIsDeleted(true);
            user.setUserName(user.getUserName() + "-" + user.getId());  // harold@manager.com-2
            userRepository.save(user);
+       } else {
+           throw new RejectedExecutionException("user cannot be deleted");
        }
-       //exception: if else send ui "user cannot be deleted
     }
 
     @Override
     public List<UserDTO> listAllByRole(String description) {
-//        return userRepository.findByRole_DescriptionIgnoreCase(description).stream()
         return userRepository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false).stream()
                 .map(user -> mapperUtil.convert(user, new UserDTO()))
                 .collect(Collectors.toList());

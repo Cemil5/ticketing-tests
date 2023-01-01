@@ -22,11 +22,9 @@ public class TaskController {
     private final UserService userService;
     private final TaskService taskService;
 
-    // manager should see only his/her projects, so we need to limit projects to be shown
     @GetMapping("/create")
     public String createTask(Model model){
         model.addAttribute("task", new TaskDTO());
-//        model.addAttribute("projects", projectService.listAllProjects()); //
         model.addAttribute("projects", projectService.listAllProjectDetails());
         model.addAttribute("employees", userService.listAllByRole("employee"));
         model.addAttribute("tasks", taskService.listAllTasks());
@@ -61,14 +59,6 @@ public class TaskController {
         return "/task/update";
     }
 
-    // without validation
-//    @PostMapping("update/{id}")
-//    public String updateTask(@PathVariable Long id, TaskDTO task){
-//        task.setId(id);
-//        taskService.update(task);
-//        return "redirect:/task/create";
-//    }
-
     // Spring finds and match id implicitly if variable names equal and post mapping
     @PostMapping("/update/{id}")
     public String updateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model){
@@ -99,9 +89,6 @@ public class TaskController {
     @GetMapping("/employee/edit/{id}")
     public String employeeEditTask(@PathVariable Long id, Model model){
         model.addAttribute("task", taskService.findById(id));
-        //we don't want employee to change project and employee part
-//        model.addAttribute("projects", projectService.listAllProjects());
-//        model.addAttribute("employees", userService.findEmployees());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
         return "/task/status-update";

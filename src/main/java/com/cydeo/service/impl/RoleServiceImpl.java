@@ -18,19 +18,11 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-//    RoleMapper roleMapper;
     private final MapperUtil mapperUtil;
 
     @Override
     public List<RoleDTO> listAllRoles() {
         List<Role> roles = roleRepository.findAll();
-//        return roles.stream()
-//                .map(role -> roleMapper.convertToDto(role))
-//                .collect(Collectors.toList());
-//        return roles.stream()
-//                .map(roleMapper::convertToDto)
-//                .collect(Collectors.toList());
-
         return roles.stream()
                 .map(role -> mapperUtil.convert(role, new RoleDTO()))
                 .collect(Collectors.toList());
@@ -40,7 +32,6 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO findById(Long id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("role not found"));
-//        return roleMapper.convertToDto(role);
         return mapperUtil.convert(role, new RoleDTO());
     }
 }

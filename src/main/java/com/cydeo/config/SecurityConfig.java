@@ -24,7 +24,7 @@ public class SecurityConfig {
     private final AuthSuccessHandler authSuccessHandler;
 
 
-    // this is fo hard coded users may be used for testing purposes.
+    // this is for hard coded users may be used for testing purposes.
     // overrides Spring User object :
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder encoder) {

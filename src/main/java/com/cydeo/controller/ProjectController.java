@@ -20,13 +20,10 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final UserService userService;
-   // TaskService taskService;
 
-    // manager should see only his/her projects, so we need to limit projects to be shown
     @GetMapping("/create")
     public String createProject(Model model){
         model.addAttribute("project", new ProjectDTO());
-//        model.addAttribute("projects", projectService.listAllProjects());
         model.addAttribute("projects", projectService.listAllProjectDetails());
         model.addAttribute("managers", userService.listAllByRole("manager"));
         return "/project/create";
@@ -40,8 +37,6 @@ public class ProjectController {
             model.addAttribute("projects", projectService.listAllProjectDetails());
             return "/project/create";
         }
-
-       // projectDTO.setProjectStatus(Status.OPEN);
         projectService.save(projectDTO);
         return "redirect:/project/create";
     }

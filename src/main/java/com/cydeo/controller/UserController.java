@@ -30,25 +30,8 @@ public class UserController {
     }
 
 
-//    @PostMapping("/create")
-//    public String insertUser(UserDTO user, Model model){
-//    // public String insertUser(UserDTO user, Model model){
-//
-//        userService.save(user);
-//
-////        model.addAttribute("user", new UserDTO());
-////        model.addAttribute("roles", roleService.listAllProjects());
-////        model.addAttribute("users", userService.listAllProjects());
-////        return "user/create";
-//
-//        // instead of writing codes above, we use redirect keyword.
-//        return "redirect:/user/create";
-//    }
-
-    // model should be last parameter
     @PostMapping("/create")
     public String insertUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
-//    public String insertUser( @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
             model.addAttribute("users", userService.listAllUsers());
             model.addAttribute("roles", roleService.listAllRoles());
@@ -67,9 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-  //  public String updateUser(@ModelAttribute UserDTO user, Model model){
     public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
-//    public String updateUser(@ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()){
             model.addAttribute("users", userService.listAllUsers());
@@ -78,20 +59,11 @@ public class UserController {
         }
 
         userService.update(user);
-//        model.addAttribute("user", new UserDTO());
-//        model.addAttribute("roles", roleService.listAllProjects());
-//        model.addAttribute("users", userService.listAllProjects());
-//        return "user/create";
-
-        // instead of writing codes above, we use redirect keyword.
         return "redirect:/user/create";
     }
 
     @GetMapping("/delete/{username}")
     public String deleteUser(@PathVariable String username){
-        // deletes from database :
-//        userService.deleteByUserName(username);
-        // makes boolean true, if deleted
         userService.delete(username);
         return "redirect:/user/create";
     }

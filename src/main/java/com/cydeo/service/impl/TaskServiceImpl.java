@@ -62,26 +62,15 @@ public class TaskServiceImpl implements TaskService {
             convertedTask.setAssignedDate(task.get().getAssignedDate());
             taskRepository.save(convertedTask);
         }
-
-        // second option
-//        Task savedTask = taskRepository.findById(dto.getId()).orElseThrow();
-//        Task converted = mapperUtil.convert(dto, new Task());
-//        converted.setAssignedDate(savedTask.getAssignedDate());
-//        converted.setTaskStatus(savedTask.getTaskStatus());
-//        taskRepository.save(converted);
     }
 
     @Override
     public void delete(Long id) {
-        // this option is better than below for deletion operation
         Optional<Task> foundTask = taskRepository.findById(id);
         if (foundTask.isPresent()) {
             foundTask.get().setIsDeleted(true);
             taskRepository.save(foundTask.get());
         }
-//        Task task = taskRepository.findById(id).orElseThrow();
-//        task.setIsDeleted(true);
-//        taskRepository.save(task);
     }
 
     @Override
@@ -96,9 +85,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> findAllTasksByStatusIsNot(Status status) {
-//        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
         String username = userService.getLoggedInUsername();
-
         return taskRepository.findByTaskStatusIsNotAndAssignedEmployee_UserName(status, username).stream()
                 .map(task -> mapperUtil.convert(task, new TaskDTO()))
                 .collect(Collectors.toList());
@@ -106,9 +93,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> findAllTasksByStatusIs(Status status) {
-//        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
         String username = userService.getLoggedInUsername();
-//        User user = mapperUtil.convert(loggedInUser, new User());
         return taskRepository.findByTaskStatusIsAndAssignedEmployee_UserName(status, username).stream()
                 .map(task -> mapperUtil.convert(task, new TaskDTO()))
                 .collect(Collectors.toList());

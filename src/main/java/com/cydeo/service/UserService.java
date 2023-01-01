@@ -15,10 +15,6 @@ public interface UserService {
 
     UserDTO update(UserDTO user);
 
-    // deletes from database
-//    void deleteByUserName(String username);
-
-    // makes boolean true, if deleted
     void delete(String username);
 
     List<UserDTO> listAllByRole(String description);

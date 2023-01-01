@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-//@Data // z2h since it creates problem, I commented out this and put getter / setter
-
 @Table(name = "users")
 // if we delete an employee which has completed tasks, then try to list a project which has this employee task,
 // spring can not find this employee since we deleted and
@@ -40,16 +38,4 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-//    public User(Long id, LocalDateTime insertDateTime, Long insertUserId, LocalDateTime lastUpdateDateTime, Long lastUpdateUserId, String firstName,
-//                String lastName, String userName, String passWord, boolean enabled, String phone, Role role, Gender gender) {
-//        super(id, insertDateTime, insertUserId, lastUpdateDateTime, lastUpdateUserId);
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.userName = userName;
-//        this.passWord = passWord;
-//        this.enabled = enabled;
-//        this.phone = phone;
-//        this.role = role;
-//        this.gender = gender;
-//    }
 }

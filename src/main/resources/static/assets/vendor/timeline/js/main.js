@@ -7,7 +7,7 @@
 		this.contents = this.element.getElementsByClassName("js-cd-content");
 		this.offset = 0.8;
 		this.hideBlocks();
-	};
+	}
 
 	VerticalTimeline.prototype.hideBlocks = function() {
 		//hide timeline blocks which are outside the viewport
@@ -67,5 +67,5 @@
 			timeline.showBlocks();
 		});
 		scrolling = false;
-	};
+	}
 })();

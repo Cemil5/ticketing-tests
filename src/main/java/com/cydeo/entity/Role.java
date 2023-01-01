@@ -8,7 +8,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-//@Data // z2h since it creates problem, I commented out this and put getter / setter
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity {
