@@ -1,4 +1,4 @@
-package com.cydeo.service.impl;
+package com.cydeo.service.impl.integrationTest;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
@@ -7,6 +7,7 @@ import com.cydeo.entity.Task;
 import com.cydeo.enums.Status;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.UserService;
+import com.cydeo.service.impl.TaskServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

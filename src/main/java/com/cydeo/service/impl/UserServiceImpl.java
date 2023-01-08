@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
@@ -43,23 +45,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-        List<User> userList = userRepository.findAllByIsDeletedOrderByFirstNameDesc(false);
+        List<User> userList = userRepository.findAllByIsDeleted(false);
         return userList.stream()
+                .sorted(Comparator.comparing(User::getFirstName).reversed())
                 .map(user -> mapperUtil.convert(user, new UserDTO()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDTO findByUserName(String username) {
-        return mapperUtil.convert(userRepository.findByUserNameAndIsDeleted(username, false), new UserDTO());
+        User user = userRepository.findByUserNameAndIsDeleted(username, false);
+        if (user == null) throw new NoSuchElementException("user not found");
+        return mapperUtil.convert(user, new UserDTO());
     }
 
     @Override
-    public void save(UserDTO dto) {
+    public UserDTO save(UserDTO dto) {
         User user = mapperUtil.convert(dto, new User());
         user.setPassWord(passwordEncoder.encode(user.getPassWord()));
         user.setEnabled(true);
-        userRepository.save(user);
+        User saved = userRepository.save(user);
+        return mapperUtil.convert(saved, new UserDTO());
     }
 
     @Override
@@ -67,9 +73,9 @@ public class UserServiceImpl implements UserService {
         User updatedUser = mapperUtil.convert(user, new User());
         User savedUser = userRepository.findByUserNameAndIsDeleted(user.getUserName(), false);
         updatedUser.setId(savedUser.getId());
-        updatedUser.setInsertDateTime(savedUser.getInsertDateTime());
-        userRepository.save(updatedUser);
-        return findByUserName(user.getUserName());
+        updatedUser.setPassWord(passwordEncoder.encode(user.getPassWord()));
+        User saved = userRepository.save(updatedUser);
+        return mapperUtil.convert(saved, new UserDTO());
     }
 
     @Override

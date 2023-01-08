@@ -1,17 +1,16 @@
-package com.cydeo.service.impl;
+package com.cydeo.service.impl.unitTest;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
-import com.cydeo.entity.Task;
-import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.SecurityService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import com.cydeo.service.impl.ProjectServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,16 +25,18 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProjectServiceImpl_UnitTests {
+class ProjectServiceImpl_UnitTest {
 
     @Mock
     ProjectRepository projectRepository;
@@ -79,7 +80,7 @@ class ProjectServiceImpl_UnitTests {
         when(projectRepository.findByProjectCode(anyString())).thenReturn(Optional.empty());
         Throwable throwable = catchThrowable(()-> projectService.getByProjectCode(anyString()));
         //then
-        assertInstanceOf(NoSuchFieldError.class, throwable);
+        assertInstanceOf(NoSuchElementException.class, throwable);
         assertEquals("project not found", throwable.getMessage());
     }
 
@@ -168,8 +169,8 @@ class ProjectServiceImpl_UnitTests {
         project.setProjectCode("P001");
         project.setProjectStatus(Status.OPEN);
         return Stream.of(
-                Arguments.arguments(getProjects()),
-                Arguments.arguments(new ArrayList<>())
+                arguments(getProjects()),
+                arguments(new ArrayList<>())
         );
     }
 
