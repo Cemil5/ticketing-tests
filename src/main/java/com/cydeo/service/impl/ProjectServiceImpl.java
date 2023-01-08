@@ -39,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDTO save(ProjectDTO dto) {
         dto.setProjectStatus(Status.OPEN);
+        //        throw new NoSuchElementException("You cannot create new project");
         Project saved = projectRepository.save(mapperUtil.convert(dto, new Project()));
         return mapperUtil.convert(saved, new ProjectDTO());
     }

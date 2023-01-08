@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 
 @Controller
@@ -31,7 +32,6 @@ public class ProjectController {
 
     @PostMapping("/create")
     public String insertProject(@Valid @ModelAttribute ("project") ProjectDTO projectDTO, BindingResult bindingResult, Model model){
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("managers", userService.listAllByRole("manager"));
             model.addAttribute("projects", projectService.listAllProjectDetails());
