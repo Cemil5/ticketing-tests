@@ -4,17 +4,16 @@ import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Task;
-import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.TaskRepository;
-import com.cydeo.service.SecurityService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -31,22 +30,23 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDTO> listAllTasks() {
         return taskRepository.findAll().stream()
+                .sorted(Comparator.comparing(Task::getTaskStatus).reversed())
                 .map(task -> mapperUtil.convert(task, new TaskDTO()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public TaskDTO findById(Long id) {
-        Optional<Task> task = taskRepository.findById(id);
-        return task.map(task1 -> mapperUtil.convert(task1, new TaskDTO()))
-                .orElse(null);
+        Task task = taskRepository.findById(id)
+                .orElseThrow( ()-> new NoSuchElementException("Task not found"));
+        return mapperUtil.convert(task, new TaskDTO());
     }
 
     @Override
     public TaskDTO save(TaskDTO dto) {
-        dto.setTaskStatus(Status.OPEN);
-        dto.setAssignedDate(LocalDate.now());
         final Task task = mapperUtil.convert(dto, new Task());
+        task.setTaskStatus(Status.OPEN);
+        task.setAssignedDate(LocalDate.now());
         return mapperUtil.convert(taskRepository.save(task), new TaskDTO());
     }
 

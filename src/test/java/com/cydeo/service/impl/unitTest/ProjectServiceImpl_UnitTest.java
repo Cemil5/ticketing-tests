@@ -39,17 +39,17 @@ import static org.mockito.Mockito.*;
 class ProjectServiceImpl_UnitTest {
 
     @Mock
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
     @Spy
-    MapperUtil mapperUtil = new MapperUtil(new ModelMapper());
+    private MapperUtil mapperUtil = new MapperUtil(new ModelMapper());
     @Mock
-    UserService userService;
+    private UserService userService;
     @Mock
-    TaskService taskService;
+    private TaskService taskService;
     @Mock
-    SecurityService securityService;
+    private SecurityService securityService;
     @InjectMocks
-    ProjectServiceImpl projectService;
+    private ProjectServiceImpl projectService;
 
     static Project project;
     static ProjectDTO projectDto;
@@ -138,6 +138,12 @@ class ProjectServiceImpl_UnitTest {
     }
 
     @ParameterizedTest
+    /**
+     * @MethodSource
+     * •	It is used to specify a factory method for test arguments.
+     * •	This method can be present in the same class or any other class too.
+     * •	The factory method should be static and should return a Stream, an Iterable or an array of elements.
+     */
     @MethodSource(value = "input")
     void listAllProjectDetails(List<Project> projects) {
         //given

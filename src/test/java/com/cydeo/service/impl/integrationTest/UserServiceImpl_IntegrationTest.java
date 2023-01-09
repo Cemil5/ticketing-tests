@@ -46,19 +46,27 @@ import static org.mockito.Mockito.when;
 public class UserServiceImpl_IntegrationTest {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    MapperUtil mapperUtil;
+    private MapperUtil mapperUtil;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    /**
+     * We can use the @MockBean to add mock objects to the Spring application context.
+     * The mock will replace any existing bean of the same type in the application context.
+     * If no bean of the same type is defined, a new one will be added.
+     * This annotation is useful in integration tests where a particular bean, like an external service, needs to be mocked.
+     * Use @Mock when unit testing your business logic (only using JUnit and Mockito).
+     *  Use @MockBean when you write a test that is backed by a Spring Test Context and you want to add or replace a bean with a mocked version of it.
+     */
+    @MockBean
+    private TaskService taskService;
 
     @MockBean
-    TaskService taskService;
-
-    @MockBean
-    ProjectService projectService;
+    private ProjectService projectService;
 
     static User user;
     static UserDTO userDTO;
@@ -114,7 +122,7 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional    // InvalidDataAccessApiUsageException: org.hibernate.TransientPropertyValueException: object references an unsaved transient instance - save the transient instance before flushing
     @WithMockUser(username = "admin@admin.com", password = "Abc1", roles = "ADMIN")
     void save() {
         // when
@@ -128,7 +136,7 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional // DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [last_update_user_id" of relation "users]
     void update() {
         // given
         UserDTO dto = userService.findByUserName("admin@admin.com");
@@ -142,8 +150,12 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
-    @Transactional
-    @Commit
+//    @Commit   // spring by default rollback after each test. it really deletes if we uncomment this annotation.
+    /**
+     *@ValueSource
+     * •	It is used to provide a single parameter per test method.
+     * •	It lets you specify an array of literals or primitive types.
+     */
     @ValueSource(strings = {"admin@admin.com", "samantha@manager.com", "john@employee.com"})
     void delete_happyPath(String username) {
         // when
@@ -157,8 +169,6 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
-    @Transactional
-    @Commit
     @ValueSource(strings = {"harold@manager.com", "grace@employee.com"})
     void delete_throws_exception(String username) {
         // when
@@ -173,7 +183,12 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
-    @Transactional
+    /**
+     * @MethodSource
+     * •	It is used to specify a factory method for test arguments.
+     * •	This method can be present in the same class or any other class too.
+     * •	The factory method should be static and should return a Stream, an Iterable or an array of elements.
+     */
     @MethodSource(value = "description")
     void listAllByRole(String roleDescription, int expectedSize) {
         // when

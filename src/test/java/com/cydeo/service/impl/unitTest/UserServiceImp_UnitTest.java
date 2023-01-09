@@ -37,26 +37,43 @@ import static org.mockito.Mockito.*;
 public class UserServiceImp_UnitTest {
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
+    /**
+     * When Mockito creates a mock, it does so from the Class of a Type, not from an actual instance.
+     * The mock simply creates a bare-bones shell instance of the Class, entirely instrumented to track interactions with it.
+     * On the other hand, the spy will wrap an existing instance. It will still behave in the same way as the normal instance;
+     * the only difference is that it will also be instrumented to track all the interactions with it.
+     */
     @Spy
-    MapperUtil mapperUtil = new MapperUtil(new ModelMapper());
+    private MapperUtil mapperUtil = new MapperUtil(new ModelMapper());
 
     @Mock
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
+    /**
+     * @InjectMocks is the Mockito Annotation. It allows you to mark a field on which an injection is to be performed.
+     * @InjectMocks will only inject mocks/spies created using the @Spy or @Mock annotation.
+     * Injection allows you to,
+     * •	Enable shorthand mock and spy injections.
+     * •	Minimize repetitive mock and spy injection.
+     * Always remember that the @InjectMocks annotation will only inject mocks/spies created using @Mock or @Spy annotations.
+     * Mockito will try to inject mocks only either by constructor injection, setter injection, or property injection, in order.
+     * If any of the following strategies fail, then Mockito won't report a failure.
+     */
     @InjectMocks
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Mock
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Mock
-    TaskService taskService;
+    private TaskService taskService;
 
     static User user;
     static UserDTO userDTO;
 
+    // this method run before each @Test method.
     @BeforeEach
     void setUp() {
         user = new User();
@@ -85,6 +102,11 @@ public class UserServiceImp_UnitTest {
         expectedList.sort(Comparator.comparing(UserDTO::getFirstName).reversed());
         List<UserDTO> actualList = userService.listAllUsers();
         // then
+        /**
+         * AssertJ assertThat :
+         * Objects can be compared in various ways either to determine equality of two objects or to examine the fields of an object.
+         * for more info : https://assertj.github.io/doc/
+         */
         assertThat(actualList).usingRecursiveComparison()
                 .ignoringExpectedNullFields() // this method can be used if needed
                 //  .ignoringFields("id") // this method can be used if needed
@@ -143,6 +165,11 @@ public class UserServiceImp_UnitTest {
     }
 
     @ParameterizedTest
+    /**
+     *@ValueSource
+     * •	It is used to provide a single parameter per test method.
+     * •	It lets you specify an array of literals or primitive types.
+     */
     @ValueSource(strings = {"Manager", "Employee", "Admin"})
     void delete_happyPath(String roleDescription) {
         //given
@@ -151,6 +178,10 @@ public class UserServiceImp_UnitTest {
         when(userRepository.findByUserNameAndIsDeleted(anyString(), anyBoolean()))
                 .thenReturn(user);
         when(userRepository.save(any())).thenReturn(user);
+        /**
+         * Mockito throws an UnsupportedStubbingException when an initialized mock is not called by one of the test methods
+         * during execution. We can avoid this strict stub checking by using lenient() method when initializing the mocks.
+         */
         lenient().when(projectService.listAllNonCompletedByAssignedManager(any()))
                 .thenReturn(new ArrayList<>());
         lenient().when(taskService.listAllNonCompletedByAssignedEmployee(any()))

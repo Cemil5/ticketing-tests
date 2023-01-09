@@ -34,4 +34,16 @@ public class Task extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private User assignedEmployee;
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskSubject='" + taskSubject + '\'' +
+                ", taskDetail='" + taskDetail + '\'' +
+                ", taskStatus=" + taskStatus +
+                ", assignedDate=" + assignedDate +
+                ", project=" + project +
+                ", assignedEmployee=" + assignedEmployee +
+                '}';
+    }
 }

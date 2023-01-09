@@ -27,16 +27,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskServiceImpl_IntegrationTest {
 
     @Autowired
-    TaskServiceImpl taskService;
+    private TaskServiceImpl taskService;
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Test
-    @Transactional
+    @Transactional    // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     void listAllTasks() {
         //when
         List<TaskDTO> taskDTOS = taskService.listAllTasks();
@@ -46,7 +46,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional    // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     void findById() {
         //when
         TaskDTO taskDTO = taskService.findById(1L);
@@ -55,7 +55,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional    // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @WithMockUser(username = "samantha@manager.com", password = "Abc1", roles = "MANAGER")
     void save() {
         //given
@@ -79,7 +79,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     void update() {
         //given
         TaskDTO taskDTO = taskService.findById(1L);
@@ -94,8 +94,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
-    @Commit
+    @Transactional    //NoSuchElementException: task not found
     void delete() {
         //when
         taskService.delete(2L);
@@ -122,7 +121,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @WithMockUser(username = "sameen@employee.com", password = "Abc1", roles = "EMPLOYEE")
     void findAllTasksByStatusIsNot() {
         //when
@@ -132,7 +131,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @WithMockUser(username = "sameen@employee.com", password = "Abc1", roles = "EMPLOYEE")
     void findAllTasksByStatusIs() {
         //when
@@ -142,7 +141,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @WithMockUser(username = "sameen@employee.com", password = "Abc1", roles = "EMPLOYEE")
     void listAllNonCompletedByAssignedEmployee() {
         //given
@@ -154,7 +153,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @Test
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @WithMockUser(username = "samantha@manager.com", password = "Abc1", roles = "MANAGER")
     void completeByProject() {
         //given
@@ -171,7 +170,7 @@ class TaskServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
-    @Transactional
+    @Transactional     // MappingException: ModelMapper mapping errors: Error mapping com.cydeo.entity.Task to com.cydeo.dto.TaskDTO
     @CsvSource({
             "'SP00', 4",
             "'SP20', 0"
