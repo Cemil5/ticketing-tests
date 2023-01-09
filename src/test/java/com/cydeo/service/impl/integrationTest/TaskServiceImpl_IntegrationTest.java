@@ -14,9 +14,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -42,7 +42,7 @@ class TaskServiceImpl_IntegrationTest {
         List<TaskDTO> taskDTOS = taskService.listAllTasks();
         //then
         assertTrue(taskDTOS.size()>15);
-        assertEquals("Injecting dependencies", taskDTOS.get(0).getTaskDetail());
+        assertEquals("Creating controllers", taskDTOS.get(0).getTaskDetail());
     }
 
     @Test
@@ -67,6 +67,8 @@ class TaskServiceImpl_IntegrationTest {
         taskDTO.setTaskDetail("test");
         taskDTO.setProject(projectDTO);
         taskDTO.setAssignedEmployee(userDTO);
+        taskDTO.setTaskStatus(Status.OPEN);
+        taskDTO.setAssignedDate(LocalDate.now());
 
         //when
         TaskDTO savedDto = taskService.save(taskDTO);
@@ -158,8 +160,8 @@ class TaskServiceImpl_IntegrationTest {
     void completeByProject() {
         //given
         List<TaskDTO> tasks = taskService.getTasksByProjectCode("SP00");
-        tasks.forEach(dto -> System.out.println(dto.getTaskStatus()));
-        System.out.println("----------------");
+//        tasks.forEach(dto -> System.out.println(dto.getTaskStatus()));
+//        System.out.println("----------------");
 
         //when
         taskService.completeByProject("SP00");

@@ -4,12 +4,8 @@ import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
-import com.cydeo.entity.Task;
-import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
-import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.ProjectRepository;
-import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
@@ -34,9 +30,6 @@ public class ProjectServiceImpl_IntegrationTest {
 
     @Autowired
     private ProjectRepository projectRepository;
-
-    @Autowired
-    private MapperUtil mapperUtil;
 
     @Autowired
     private TaskService taskService;
@@ -137,10 +130,11 @@ public class ProjectServiceImpl_IntegrationTest {
     @Transactional     // MappingException: ModelMapper mapping errors
     @WithMockUser(username = "samantha@manager.com", password = "Abc1", roles = "MANAGER")
     void listAllNonCompletedByAssignedManager() {
+        // given
         UserDTO user = userService.findByUserName("samantha@manager.com");
-        //when
+        // when
         List<ProjectDTO> projectDTOS = projectService.listAllNonCompletedByAssignedManager(user);
-        //then
+        // then
         assertEquals(2, projectDTOS.size());
     }
 

@@ -9,6 +9,7 @@ import com.cydeo.entity.User;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.SecurityService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,13 +22,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.RejectedExecutionException;
@@ -37,9 +34,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -49,11 +43,7 @@ public class UserServiceImpl_IntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
-    private MapperUtil mapperUtil;
-
-    @Autowired
     private UserService userService;
-
     /**
      * We can use the @MockBean to add mock objects to the Spring application context.
      * The mock will replace any existing bean of the same type in the application context.
@@ -62,11 +52,6 @@ public class UserServiceImpl_IntegrationTest {
      * Use @Mock when unit testing your business logic (only using JUnit and Mockito).
      *  Use @MockBean when you write a test that is backed by a Spring Test Context and you want to add or replace a bean with a mocked version of it.
      */
-    @MockBean
-    private TaskService taskService;
-
-    @MockBean
-    private ProjectService projectService;
 
     static User user;
     static UserDTO userDTO;
@@ -150,17 +135,17 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
+    @Transactional
+    @WithMockUser(username = "admin@admin.com", password = "Abc1", roles = "ADMIN")
 //    @Commit   // spring by default rollback after each test. it really deletes if we uncomment this annotation.
     /**
      *@ValueSource
      * •	It is used to provide a single parameter per test method.
      * •	It lets you specify an array of literals or primitive types.
      */
-    @ValueSource(strings = {"admin@admin.com", "samantha@manager.com", "john@employee.com"})
+    @ValueSource(strings = {"admin@admin.com", "john@employee.com"})
     void delete_happyPath(String username) {
         // when
-        when(projectService.listAllNonCompletedByAssignedManager(any())).thenReturn(new ArrayList<>());
-        when(taskService.listAllNonCompletedByAssignedEmployee(any())).thenReturn(new ArrayList<>());
         Long id = userService.findByUserName(username).getId();
         userService.delete(username);
         // then
@@ -169,13 +154,11 @@ public class UserServiceImpl_IntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"harold@manager.com", "grace@employee.com"})
+    @Transactional
+    @WithMockUser(username = "admin@admin.com", password = "Abc1", roles = "ADMIN")
+    @ValueSource(strings = {"samantha@manager.com", "harold@manager.com"})
     void delete_throws_exception(String username) {
         // when
-        lenient().when(projectService.listAllNonCompletedByAssignedManager(any()))
-                .thenReturn(List.of(new ProjectDTO(), new ProjectDTO()));
-        lenient().when(taskService.listAllNonCompletedByAssignedEmployee(any()))
-                .thenReturn(List.of(new TaskDTO(), new TaskDTO()));
         Throwable throwable = catchThrowable(() -> userService.delete(username));
         //then
         assertInstanceOf(RejectedExecutionException.class, throwable);

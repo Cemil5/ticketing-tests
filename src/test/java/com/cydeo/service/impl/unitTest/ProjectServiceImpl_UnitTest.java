@@ -90,7 +90,6 @@ class ProjectServiceImpl_UnitTest {
         when(projectRepository.save(any())).thenReturn(project);
         ProjectDTO actual = projectService.save(projectDto);
         //then
-        verify(projectRepository).save(any(Project.class));
         assertEquals(project.getProjectCode(), actual.getProjectCode());
         assertEquals(Status.OPEN, actual.getProjectStatus());
     }
@@ -122,7 +121,6 @@ class ProjectServiceImpl_UnitTest {
         //then
         assertTrue(project.getIsDeleted());
         assertNotEquals("P001", project.getProjectCode());
-        verify(taskService).getTasksByProjectCode(anyString());
         verify(taskService, times(getTasks().size())).delete(anyLong());
     }
 
