@@ -84,7 +84,6 @@ public class UserServiceImp_UnitTest {
         List<UserDTO> expectedList = getUserDtos();
         expectedList.sort(Comparator.comparing(UserDTO::getFirstName).reversed());
         List<UserDTO> actualList = userService.listAllUsers();
-
         // then
         assertThat(actualList).usingRecursiveComparison()
                 .ignoringExpectedNullFields() // this method can be used if needed
@@ -97,7 +96,6 @@ public class UserServiceImp_UnitTest {
         //when
         when(userRepository.findByUserNameAndIsDeleted(anyString(), any()))
                 .thenReturn(user);
-
         //then
         UserDTO actual = userService.findByUserName("John");
         assertThat(actual).usingRecursiveComparison()
@@ -119,7 +117,6 @@ public class UserServiceImp_UnitTest {
         //when
         when(userRepository.save(any())).thenReturn(user);
         UserDTO actualDto = userService.save(userDTO);
-
         //then
         verify(mapperUtil).convert(any(UserDTO.class), any(User.class));
         verify(mapperUtil).convert(any(User.class), any(UserDTO.class));
@@ -136,7 +133,6 @@ public class UserServiceImp_UnitTest {
                 .thenReturn(user);
         when(userRepository.save(any())).thenReturn(user);
         UserDTO actualDto = userService.update(userDTO);
-
         //then
         verify(mapperUtil).convert(any(UserDTO.class), any(User.class));
         verify(passwordEncoder).encode(anyString());
@@ -198,7 +194,6 @@ public class UserServiceImp_UnitTest {
         assertEquals(2, actualList.size());
         verify(mapperUtil, times(2))
                 .convert(any(User.class), any(UserDTO.class));
-
     }
 
     static User getUser(String roleDescription) {

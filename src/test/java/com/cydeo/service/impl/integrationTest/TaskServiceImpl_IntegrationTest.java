@@ -11,7 +11,6 @@ import com.cydeo.service.impl.TaskServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -25,7 +24,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TaskServiceImpl_IntegrationTests {
+class TaskServiceImpl_IntegrationTest {
 
     @Autowired
     TaskServiceImpl taskService;
@@ -43,6 +42,7 @@ class TaskServiceImpl_IntegrationTests {
         List<TaskDTO> taskDTOS = taskService.listAllTasks();
         //then
         assertTrue(taskDTOS.size()>15);
+        assertEquals("Injecting dependencies", taskDTOS.get(0).getTaskDetail());
     }
 
     @Test
