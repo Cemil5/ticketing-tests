@@ -7,6 +7,7 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Role;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.MapperUtil;
+import com.cydeo.repository.RoleRepository;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.SecurityService;
@@ -23,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -36,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 public class UserServiceImpl_IntegrationTest {
 
     @Autowired
@@ -55,6 +56,8 @@ public class UserServiceImpl_IntegrationTest {
 
     static User user;
     static UserDTO userDTO;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @BeforeEach
     void setUp() {
@@ -145,12 +148,14 @@ public class UserServiceImpl_IntegrationTest {
      */
     @ValueSource(strings = {"admin@admin.com", "john@employee.com"})
     void delete_happyPath(String username) {
+        // given
+        UserDTO expected = userService.findByUserName(username);
         // when
-        Long id = userService.findByUserName(username).getId();
         userService.delete(username);
         // then
-        User result = userRepository.findById(id).orElseThrow();
+        User result = userRepository.findById(expected.getId()).orElseThrow();
         assertTrue(result.getIsDeleted());
+        assertNotEquals(expected.getUserName(),result.getUserName());
     }
 
     @ParameterizedTest
@@ -178,6 +183,9 @@ public class UserServiceImpl_IntegrationTest {
         List<UserDTO> actualList = userService.listAllByRole(roleDescription);
         // then
         assertEquals(expectedSize, actualList.size());
+        actualList.forEach(
+                userDTO1 -> assertEquals(roleDescription, userDTO1.getRole().getDescription())
+        );
     }
 
     static Stream<Arguments> description() {
